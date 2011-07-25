@@ -179,12 +179,12 @@ Rectangle {
     }
 
     ListView {
-        cacheBuffer: 2000
+        cacheBuffer: 1000
         width: parent.width
         height: parent.height
         anchors.centerIn: parent
         model: newsItemModel
         delegate: newsItemDelegate        
-        flickDeceleration:4500
+        flickDeceleration:2000
     }
 }
