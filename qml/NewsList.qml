@@ -3,7 +3,7 @@ import com.meego 1.0
 import "js/gnews.js" as Gnews
 
 Rectangle {
-    id: newsList
+    id: newsListOlder
     width: parent.width
     height: parent.height-71
     anchors.bottom: parent.bottom
@@ -61,17 +61,25 @@ Rectangle {
         appWindow.stopSpinner();
     }
 
+    function getHeadline(title, url) {
+        var h = '<p style="font-size:20pt;">'
+        h += '<a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a>'
+        h+= '</p>'
+        return h
+    }
+
     function buildContentString(title, url, byline, content, image) {
-        var text = '<p style="font-size:20pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a></p>'
+        var text = getHeadline(title, url);
         text += '<p style="color:grey;font-size:15pt">'+byline+'</p>'
         text += '<p>';
         if(image) {
             var width = 130;
             var height =parseInt((130/image.tbWidth)*image.tbHeight);
-            text += '<table style="float:left;margin: 10px 15px -20px 0px;padding-bottom:0px"><tr><td width="'+width+' valign="middle"><img src="'+image.url+'" style="background-color:#fff;" height="'+height+'" width="'+width+'" /></td><tr/></table>';
+            text += '<table style="float:left;margin: 10px 15px -20px 0px;padding-bottom:0px"><tr>';
+            text += '<td width="'+width+' valign="middle"><img src="'+image.url+'" style="background-color:#fff;" height="'+height+'" width="'+width+'" /></td>';
+            text += '<tr/></table>';
         }
         text += content+'</p>'
-        console.log('content string')
         return text
     }
 
@@ -104,7 +112,10 @@ Rectangle {
             height: childrenRect.height
             Text {
                 id:newsContent
-                width:parent.width
+                width:parent.width-30
+                anchors.top: parent.top
+                anchors.topMargin: 20
+                anchors.horizontalCenter: parent.horizontalCenter
                 text: content
                 textFormat: Text.RichText
                 font.pointSize: 16
@@ -114,17 +125,20 @@ Rectangle {
             Rectangle {
                 id: newsRelatedToggle
                 width:parent.width
-                height: (newsRelateds.visible ===true) ? childrenRect.height : 25
+                height: (newsRelateds.visible ===true) ? childrenRect.height : relToggleText.height
                 anchors.top: newsContent.bottom
+//                anchors.topMargin: 10
                 visible: (url != "more") ? true : false
                 Text {
                     id:relToggleText
                     width: parent.width
                     font.bold: true
-                    text:  "more sources"
+                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:5px;background-color:#fff;">more sources</td></tr></table>'
                     font.pointSize: 16
-                    height: 25
-                    horizontalAlignment: Text.AlignHCenter
+                    height: 60
+//                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    textFormat: Text.RichText
                     MouseArea {
                         id: moreMouse
                         anchors.fill: parent
@@ -133,7 +147,8 @@ Rectangle {
                 }
                 Text {
                     id:newsRelateds
-                    width:parent.width
+                    width:parent.width-30
+                    anchors.horizontalCenter: parent.horizontalCenter
                     visible:false
                     anchors.top: relToggleText.bottom
                     text: relateds
