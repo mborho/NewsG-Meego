@@ -1,0 +1,39 @@
+import QtQuick 1.1
+import com.meego 1.0
+
+Page {
+    id: mainPage
+    tools: commonTools
+    property int resultPage: 1
+    Component.onCompleted: onStartup()
+
+    function onStartup() {
+        console.log('startup mainPage')
+    }
+
+    function start() {
+        setTopicLabel()
+        newsList.doRequest();
+    }
+
+    function doRefresh() {
+        mainPage.resultPage = 1
+        newsList.doRequest();
+    }
+
+    function setTopicLabel() {
+        topicSelector.setTopicLabel();
+    }
+
+    TopicSelector {
+        id: topicSelector
+    }
+
+    NewsList {
+        id: newsList
+    }
+
+    TopicSelectMenu {
+        id: topicSelectMenu
+    }
+}
