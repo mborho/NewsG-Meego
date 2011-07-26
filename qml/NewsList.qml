@@ -3,7 +3,7 @@ import com.meego 1.0
 import "js/gnews.js" as Gnews
 
 Rectangle {
-    id: newsListOlder
+    id: newsList
     width: parent.width
     height: parent.height-71
     anchors.bottom: parent.bottom
@@ -34,7 +34,8 @@ Rectangle {
             newsItemModel.remove(newsItemModel.count-1)
         }
         var currentPage = response["responseData"]["cursor"]["currentPageIndex"]
-        var maxPage = response["responseData"]["cursor"]["pages"].length -1
+        var maxPage = (response["responseData"]["cursor"]["pages"] !== undefined) ? response["responseData"]["cursor"]["pages"].length -1 : 1
+        console.log('max: '+maxPage)
         var items = response["responseData"]["results"]
         var max = items.length
 
@@ -42,17 +43,25 @@ Rectangle {
         for(var x=0;max > x;x++) {
             var item = {}
             var date = new Date(items[x].publishedDate);
-            item.title = items[x].titleNoFormatting
-            item.url = items[x].unescapedUrl
-            item.byline = items[x].publisher + ' / '+Qt.formatDate(date) +' '+String(Qt.formatTime(date)).substring(0,5)
+            var title = items[x].titleNoFormatting
+            var byline = items[x].publisher + ' / '+Qt.formatDate(date) +' '+String(Qt.formatTime(date)).substring(0,5)
             if(items[x].image == "undefined") items[x].image = false;
-            item.content = buildContentString(item.title, item.url, item.byline, items[x].content, items[x].image)
+            item.image = items[x].image
+            if(item.image) {
+                item.image.width = 130;
+                item.image.height =parseInt((130/item.image.tbWidth)*item.image.tbHeight);
+            }
+            item.header = getHeader(title, items[x].unescapedUrl , byline);
+            item.content = buildContentString(items[x].content, items[x].image)
             item.relateds = buildRelatedString(items[x].relatedStories);
             console.log('Item '+x)
             itemList[x] = item;
         }
         if(currentPage < maxPage) {
-            itemList.push({url:"more",content:'<p style="font-size:20pt;line-height:40pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="more">load more...</a></p>', relateds:''})
+            itemList.push({image:{url:'false',height:0,width:0},
+                          header:'',
+                          content:'<p style="text-align:center;width:100%;font-size:20pt;line-height:40pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="more">load more...</a></p>',
+                          relateds:''})
         }
         max = itemList.length
         for(var j=0;max >j;j++) {
@@ -61,25 +70,20 @@ Rectangle {
         appWindow.stopSpinner();
     }
 
-    function getHeadline(title, url) {
-        var h = '<p style="font-size:20pt;">'
-        h += '<a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a>'
-        h+= '</p>'
+    function getHeader(title, url, byline) {
+        var h = '<span style="font-size:17pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a></span><br/>'
+        h += '<span style="color:grey;font-size:14pt">'+byline+'</span>'
         return h
     }
 
-    function buildContentString(title, url, byline, content, image) {
-        var text = getHeadline(title, url);
-        text += '<p style="color:grey;font-size:15pt">'+byline+'</p>'
-        text += '<p>';
-        if(image) {
-            var width = 130;
-            var height =parseInt((130/image.tbWidth)*image.tbHeight);
-            text += '<table style="float:left;margin: 10px 15px -20px 0px;padding-bottom:0px"><tr>';
-            text += '<td width="'+width+' valign="middle"><img src="'+image.url+'" style="background-color:#fff;" height="'+height+'" width="'+width+'" /></td>';
+    function buildContentString(content, image) {
+        var text = '';
+        if(image) {            
+            text += '<table style="float:left;margin: 10px 15px -20px 0px;padding-bottom:0px;"><tr>';
+            text += '<td width="'+image.width+' valign="middle"><img src="gfx/dummy.png" style="background-color:#fff;" height="'+image.height+'" width="'+image.width+'" /></td>';
             text += '<tr/></table>';
         }
-        text += content+'</p>'
+        text += content+''
         return text
     }
 
@@ -108,41 +112,65 @@ Rectangle {
         id:newsItemDelegate
         Item {
             id: newsItemBox
-            width:parent.width
+            width:newsList.width
             height: childrenRect.height
             Text {
-                id:newsContent
+                id:newsTitle
                 width:parent.width-30
                 anchors.top: parent.top
                 anchors.topMargin: 20
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: content
+                text: header
                 textFormat: Text.RichText
-                font.pointSize: 16
+                font.pointSize: 15
                 wrapMode: Text.WordWrap
                 onLinkActivated: entryClicked(link)
             }
+            Text {
+                id:newsContent
+                width:parent.width-30
+                anchors.top: newsTitle.bottom
+                anchors.topMargin: 5
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: content
+                textFormat: Text.RichText
+                font.pointSize: 15
+                wrapMode: Text.WordWrap
+                onLinkActivated: entryClicked(link)
+            }
+            Image {
+                id: newsImage
+                source: image.url
+                anchors.top: newsContent.top
+                anchors.topMargin: 5
+                anchors.left: newsContent.left
+                height: image.height
+                width: image.width
+                visible: (header !== "") ? true : false
+                fillMode:Image.PreserveAspectFit
+            }
+
             Rectangle {
                 id: newsRelatedToggle
                 width:parent.width
                 height: (newsRelateds.visible ===true) ? childrenRect.height : relToggleText.height
                 anchors.top: newsContent.bottom
 //                anchors.topMargin: 10
-                visible: (url != "more") ? true : false
+                visible: (header !== "") ? true : false
                 Text {
                     id:relToggleText
                     width: parent.width
                     font.bold: true
                     text:  '<table style="background-color:'+appWindow.currentTopicColor+';" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:5px;background-color:#fff;">more sources</td></tr></table>'
                     font.pointSize: 16
+                    color: appWindow.currentTopicColor
                     height: 60
-//                    horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     textFormat: Text.RichText
                     MouseArea {
                         id: moreMouse
                         anchors.fill: parent
-                        onClicked: newsRelatedToggle.test()
+                        onClicked: newsRelatedToggle.showRelateds()
                     }
                 }
                 Text {
@@ -157,21 +185,7 @@ Rectangle {
                     wrapMode: Text.WordWrap
                     onLinkActivated: entryClicked(link)
                 }
-//                states: [
-//                        State {
-//                            name: 'expanded'
-//                            when: newsRelateds.visible
-//                            PropertyChanges { target: newsRelatedToggle; height:childrenRect.height }
-//                        }
-//                ]
-//                PropertyAnimation {
-//                    id: animation
-//                    target: newsRelatedToggle
-//                    easing.type: Easing.InCubic
-//                    properties: "height"
-//                    duration: 2000
-//                }
-                function test() {
+                function showRelateds() {
                     if (newsRelateds.visible === true) {
                         newsRelateds.visible = false;
                     } else {
@@ -193,13 +207,22 @@ Rectangle {
         console.log(url);
     }
 
-    ListView {
-        cacheBuffer: 1000
-        width: parent.width
+    Flickable {
+        width:parent.width
         height: parent.height
-        anchors.centerIn: parent
-        model: newsItemModel
-        delegate: newsItemDelegate        
-        flickDeceleration:2000
+        contentWidth: parent.width //Math.max(parent.width,resultView.width)
+        contentHeight: listContainer.height
+        flickableDirection: Flickable.VerticalFlick
+        Column {
+            id:listContainer
+            width:parent.width
+//            height: childrenRect.height
+            Repeater {
+                     model: newsItemModel
+                     delegate:  newsItemDelegate
+                     width: parent.width
+                     anchors.centerIn: parent
+                 }
+        }
     }
 }
