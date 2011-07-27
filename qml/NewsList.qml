@@ -54,7 +54,6 @@ Rectangle {
             item.header = getHeader(title, items[x].unescapedUrl , byline);
             item.content = buildContentString(items[x].content, items[x].image)
             item.relateds = buildRelatedString(items[x].relatedStories);
-            console.log('Item '+x)
             itemList[x] = item;
         }
         if(currentPage < maxPage) {
@@ -64,6 +63,7 @@ Rectangle {
                           relateds:''})
         }
         max = itemList.length
+        console.log(newsRepeater.count)
         for(var j=0;max >j;j++) {
            newsItemModel.append(itemList[j])
         }
@@ -92,13 +92,11 @@ Rectangle {
         if(relateds === undefined) return '';
         var max = relateds.length
         if(max > 0) {
-            text += '<p>';
             for(var x=0;max>x;x++) {
                 var rel = relateds[x]
-                text += '<a style="text-decoration:none;font-weight:bold;color:grey" href="'+rel.unescapedUrl+'" >'+rel.titleNoFormatting+'</a> ';
+                text += '<a style="text-decoration:none;font-weight:bold;color:#000" href="'+rel.unescapedUrl+'" >'+rel.titleNoFormatting+'</a> ';
                 text += rel.publisher+'<br/>'
             }
-            text += '</p>'
         }
         return text
     }
@@ -117,7 +115,7 @@ Rectangle {
             Text {
                 id:newsTitle
                 width:parent.width-30
-                anchors.top: parent.top
+                anchors.top: newsItemBox.top
                 anchors.topMargin: 20
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: header
@@ -155,17 +153,16 @@ Rectangle {
                 width:parent.width
                 height: (newsRelateds.visible ===true) ? childrenRect.height : relToggleText.height
                 anchors.top: newsContent.bottom
-//                anchors.topMargin: 10
                 visible: (header !== "") ? true : false
                 Text {
                     id:relToggleText
                     width: parent.width
                     font.bold: true
-                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:5px;background-color:#fff;">more sources</td></tr></table>'
+                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:2px;background-color:#fff;">more sources</td></tr></table>'
                     font.pointSize: 16
                     color: appWindow.currentTopicColor
-                    height: 60
-                    verticalAlignment: Text.AlignVCenter
+                    height: 50
+                    verticalAlignment: Text.AlignBottom
                     textFormat: Text.RichText
                     MouseArea {
                         id: moreMouse
@@ -173,17 +170,37 @@ Rectangle {
                         onClicked: newsRelatedToggle.showRelateds()
                     }
                 }
-                Text {
+                Rectangle {
                     id:newsRelateds
-                    width:parent.width-30
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    visible:false
+                    width:parent.width
+                    height: childrenRect.height
+//                    opacity: 0.2
+//                    color:appWindow.currentTopicColor
                     anchors.top: relToggleText.bottom
-                    text: relateds
-                    textFormat: Text.RichText
-                    font.pointSize: 16
-                    wrapMode: Text.WordWrap
-                    onLinkActivated: entryClicked(link)
+                    visible:false
+                    Text {
+//                        opacity: 1
+                        width:parent.width-30
+                        anchors.top:  newsRelateds.top
+                        anchors.topMargin: 10
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: relateds
+                        font.family: "Courier 10 Pitch"
+                        textFormat: Text.RichText
+                        font.pointSize: 16
+                        color:"#000"
+                        wrapMode: Text.WordWrap
+                        onLinkActivated: entryClicked(link)
+                    }
+                }
+                Rectangle {
+                    id:newsRelatedBottom
+                    height:2
+                    color: appWindow.currentTopicColor
+                    anchors.top: newsRelateds.bottom
+                    anchors.topMargin: 20
+                    width: parent.width
+                    visible: newsRelateds.visible
                 }
                 function showRelateds() {
                     if (newsRelateds.visible === true) {
@@ -192,6 +209,10 @@ Rectangle {
                         newsRelateds.visible = true;
                     }
                 }
+            }
+            Rectangle {
+                height:15
+                width:parent.width
             }
         }
     }
@@ -208,21 +229,22 @@ Rectangle {
     }
 
     Flickable {
+        id:newsFlickable
         width:parent.width
         height: parent.height
-        contentWidth: parent.width //Math.max(parent.width,resultView.width)
+        contentWidth: parent.width
         contentHeight: listContainer.height
         flickableDirection: Flickable.VerticalFlick
         Column {
             id:listContainer
             width:parent.width
-//            height: childrenRect.height
             Repeater {
-                     model: newsItemModel
-                     delegate:  newsItemDelegate
-                     width: parent.width
-                     anchors.centerIn: parent
-                 }
+                id: newsRepeater
+                 model: newsItemModel
+                 delegate:  newsItemDelegate
+                 width: parent.width
+                 anchors.centerIn: parent
+             }
         }
     }
 }
