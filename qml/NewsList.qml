@@ -8,7 +8,6 @@ Rectangle {
     height: parent.height-71
     anchors.bottom: parent.bottom
     Component.onCompleted: onStartup()
-
     function onStartup() {
         console.log('startup newslist')
     }
@@ -30,9 +29,6 @@ Rectangle {
     }
 
     function renderNewsItems(response) {
-        if(mainPage.resultPage != 1) {
-            newsItemModel.remove(newsItemModel.count-1)
-        }
         var currentPage = response["responseData"]["cursor"]["currentPageIndex"]
         var maxPage = (response["responseData"]["cursor"]["pages"] !== undefined) ? response["responseData"]["cursor"]["pages"].length -1 : 1
         console.log('max: '+maxPage)
@@ -45,7 +41,7 @@ Rectangle {
             var date = new Date(items[x].publishedDate);
             var title = items[x].titleNoFormatting
             var byline = items[x].publisher + ' / '+Qt.formatDate(date) +' '+String(Qt.formatTime(date)).substring(0,5)
-            if(items[x].image == "undefined") items[x].image = false;
+            if(items[x].image === undefined) items[x].image = false;
             item.image = items[x].image
             if(item.image) {
                 item.image.width = 130;
@@ -59,20 +55,24 @@ Rectangle {
         if(currentPage < maxPage) {
             itemList.push({image:{url:'false',height:0,width:0},
                           header:'',
-                          content:'<p style="text-align:center;width:100%;font-size:20pt;line-height:40pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="more">load more...</a></p>',
+                          content:'<p align="center" style=""><img src="gfx/down.png" /></p>',
                           relateds:''})
         }
         max = itemList.length
         console.log(newsRepeater.count)
         for(var j=0;max >j;j++) {
-           newsItemModel.append(itemList[j])
+            if(j == 0 && mainPage.resultPage != 1) {
+                newsItemModel.set(newsItemModel.count-1, itemList[j])
+            } else {
+                newsItemModel.append(itemList[j])
+            }
         }
         appWindow.stopSpinner();
     }
 
     function getHeader(title, url, byline) {
         var h = '<span style="font-size:17pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a></span><br/>'
-        h += '<span style="color:grey;font-size:14pt">'+byline+'</span>'
+        h += '<span style="font-size:14pt">'+byline+'</span>'
         return h
     }
 
@@ -92,11 +92,13 @@ Rectangle {
         if(relateds === undefined) return '';
         var max = relateds.length
         if(max > 0) {
+            text += '<p>'
             for(var x=0;max>x;x++) {
                 var rel = relateds[x]
                 text += '<a style="text-decoration:none;font-weight:bold;color:#000" href="'+rel.unescapedUrl+'" >'+rel.titleNoFormatting+'</a> ';
                 text += rel.publisher+'<br/>'
             }
+            text += '</p>'
         }
         return text
     }
@@ -111,30 +113,38 @@ Rectangle {
         Item {
             id: newsItemBox
             width:newsList.width
-            height: childrenRect.height
+            height: (header !== "") ? childrenRect.height : 80;
             Text {
                 id:newsTitle
                 width:parent.width-30
                 anchors.top: newsItemBox.top
-                anchors.topMargin: 20
+                anchors.topMargin: (header !== "") ? 20 : 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: header
                 textFormat: Text.RichText
                 font.pointSize: 15
+                lineHeight:1.1
                 wrapMode: Text.WordWrap
+                visible: (header !== "") ? true : false;
                 onLinkActivated: entryClicked(link)
             }
             Text {
                 id:newsContent
                 width:parent.width-30
                 anchors.top: newsTitle.bottom
-                anchors.topMargin: 5
+                anchors.topMargin: (header !== "") ? 5 : 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: content
                 textFormat: Text.RichText
                 font.pointSize: 15
+                lineHeight:1.1
                 wrapMode: Text.WordWrap
                 onLinkActivated: entryClicked(link)
+                MouseArea {
+                    enabled:  (header === "") ? true : false
+                    anchors.fill: parent
+                    onClicked: entryClicked('more')
+                }
             }
             Image {
                 id: newsImage
@@ -158,10 +168,10 @@ Rectangle {
                     id:relToggleText
                     width: parent.width
                     font.bold: true
-                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:2px;background-color:#fff;">more sources</td></tr></table>'
-                    font.pointSize: 16
+                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" cellpadding="0" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:7px;background-color:#fff;">'+((newsRelateds.visible) ? '▲' : '▼')+'   more sources   '+((newsRelateds.visible) ? '▲' : '▼')+'</td></tr></table>'
+                    font.pointSize: 17
                     color: appWindow.currentTopicColor
-                    height: 50
+                    height: 55
                     verticalAlignment: Text.AlignBottom
                     textFormat: Text.RichText
                     MouseArea {
@@ -173,19 +183,19 @@ Rectangle {
                 Rectangle {
                     id:newsRelateds
                     width:parent.width
-                    height: childrenRect.height
-//                    opacity: 0.2
-//                    color:appWindow.currentTopicColor
+                    height: childrenRect.height+10
+                    color:Gnews.getTopicBgColor(appWindow.currentTopic)
                     anchors.top: relToggleText.bottom
                     visible:false
                     Text {
-//                        opacity: 1
                         width:parent.width-30
                         anchors.top:  newsRelateds.top
-                        anchors.topMargin: 10
+                        anchors.topMargin: 15
                         anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenterOffset: 10
+                        verticalAlignment: Text.AlignVCenter
                         text: relateds
-                        font.family: "Courier 10 Pitch"
+                        lineHeight: 1.1
                         textFormat: Text.RichText
                         font.pointSize: 16
                         color:"#000"
@@ -198,7 +208,6 @@ Rectangle {
                     height:2
                     color: appWindow.currentTopicColor
                     anchors.top: newsRelateds.bottom
-                    anchors.topMargin: 20
                     width: parent.width
                     visible: newsRelateds.visible
                 }
@@ -212,7 +221,7 @@ Rectangle {
             }
             Rectangle {
                 height:15
-                width:parent.width
+                width:parent.width                
             }
         }
     }

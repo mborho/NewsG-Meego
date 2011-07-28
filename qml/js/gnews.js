@@ -58,6 +58,20 @@ var gnewsColors = {
   "po":"#BC1748",
 }
 
+var gnewsBgColors = {
+  "h":"#F1F5FC",
+  "w":"#FFFAE7",
+  "n":"#ECECF7",
+  "b":"#E7F2E7",
+  "t":"#FAE7E7",
+  "p":"#EAEFF6",
+  "e":"#F4F0F8",
+  "s":"#FFF0E7",
+  "m":"#EDF4F4",
+  "ir":"#FFFFFF",
+  "po":"#F9E9EE",
+}
+
 var gnewsEditions = {
     "us" : {
         ned : "us",
@@ -741,6 +755,10 @@ function getEditionTopics(edition) {
 
 function getTopicColor(topic) {
    return gnewsColors[topic];
+}
+
+function getTopicBgColor(topic) {
+   return gnewsBgColors[topic];
 }
 
 function getTopicLabel(edition, topic) {

@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/MainPage.qml</file>
+        <file>qml/TopicSelector.qml</file>
+        <file>qml/TopicSelectMenu.qml</file>
+        <file>qml/js/gnews.js</file>
+        <file>qml/EditionSelectionDialog.qml</file>
+        <file>qml/js/storage.js</file>
+        <file>qml/DefaultEditionDialog.qml</file>
+        <file>qml/DefaultTopicDialog.qml</file>
+        <file>qml/NewsList.qml</file>
+        <file>qml/gfx/dummy.png</file>
+        <file>qml/gfx/down.png</file>
+    </qresource>
+</RCC>
