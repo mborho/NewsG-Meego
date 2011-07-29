@@ -31,7 +31,6 @@ Rectangle {
     function renderNewsItems(response) {
         var currentPage = response["responseData"]["cursor"]["currentPageIndex"]
         var maxPage = (response["responseData"]["cursor"]["pages"] !== undefined) ? response["responseData"]["cursor"]["pages"].length -1 : 1
-        console.log('max: '+maxPage)
         var items = response["responseData"]["results"]
         var max = items.length
 
@@ -41,7 +40,7 @@ Rectangle {
             var date = new Date(items[x].publishedDate);
             var title = items[x].titleNoFormatting
             var byline = items[x].publisher + ' / '+Qt.formatDate(date) +' '+String(Qt.formatTime(date)).substring(0,5)
-            if(items[x].image === undefined) items[x].image = false;
+            if(items[x].image === undefined || appWindow.loadImages === false) items[x].image = false;
             item.image = items[x].image
             if(item.image) {
                 item.image.width = 130;
@@ -53,13 +52,12 @@ Rectangle {
             itemList[x] = item;
         }
         if(currentPage < maxPage) {
-            itemList.push({image:{url:'false',height:0,width:0},
+            itemList.push({image:false,
                           header:'',
                           content:'<p align="center" style=""><img src="gfx/down.png" /></p>',
                           relateds:''})
         }
         max = itemList.length
-        console.log(newsRepeater.count)
         for(var j=0;max >j;j++) {
             if(j == 0 && mainPage.resultPage != 1) {
                 newsItemModel.set(newsItemModel.count-1, itemList[j])
@@ -78,7 +76,7 @@ Rectangle {
 
     function buildContentString(content, image) {
         var text = '';
-        if(image) {            
+        if(image) {
             text += '<table style="float:left;margin: 10px 15px -20px 0px;padding-bottom:0px;"><tr>';
             text += '<td width="'+image.width+' valign="middle"><img src="gfx/dummy.png" style="background-color:#fff;" height="'+image.height+'" width="'+image.width+'" /></td>';
             text += '<tr/></table>';
@@ -148,13 +146,13 @@ Rectangle {
             }
             Image {
                 id: newsImage
-                source: image.url
+                source: (image) ? image.url : "gfx/dummy.png"
                 anchors.top: newsContent.top
                 anchors.topMargin: 5
                 anchors.left: newsContent.left
                 height: image.height
                 width: image.width
-                visible: (header !== "") ? true : false
+                visible: (header !== "" && image) ? true : false
                 fillMode:Image.PreserveAspectFit
             }
 
@@ -232,9 +230,12 @@ Rectangle {
             console.log('load page '+mainPage.resultPage)
             doRequest()
         } else {
+            if(appWindow.gMobilizer === true) {
+                   url = 'http://google.com/gwt/x?u='+encodeURIComponent(url)
+            }
+            console.log('Opening '+url);
             Qt.openUrlExternally ( url )
         }
-        console.log(url);
     }
 
     Flickable {
@@ -252,7 +253,7 @@ Rectangle {
                  model: newsItemModel
                  delegate:  newsItemDelegate
                  width: parent.width
-                 anchors.centerIn: parent
+//                 anchors.centerIn: parent
              }
         }
     }

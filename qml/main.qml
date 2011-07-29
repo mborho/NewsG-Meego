@@ -7,10 +7,13 @@ PageStackWindow {
     id: appWindow
 
     initialPage: mainPage
-    property variant settings:  false
+    property variant settings:  {}
     property string currentNed: "us"
     property string currentTopic: "h"
     property string currentTopicColor: "#6B90DA"
+    property bool loadImages: true
+    property bool gMobilizer: false
+    property bool settingsComplete: false
     Component.onCompleted: onStartup()
 
     MainPage{id: mainPage}
@@ -20,25 +23,25 @@ PageStackWindow {
         var defaults = {
             defaultNed:currentNed,
             defaultTopic: currentTopic,
-            loadImages: true,
-            gMobilizer: false
+            loadImages: loadImages,
+            gMobilizer: gMobilizer
         }
         Storage.loadSettings(defaults, settingsLoaded);
     }
 
     function settingsLoaded(dbSettings) {
         settings = dbSettings
-        console.debug(settings.loadImages)
-        console.debug(settings.gMobilizer)
         currentNed = settings.defaultNed
         currentTopic = settings.defaultTopic
         currentTopicColor = Gnews.getTopicColor(currentTopic)
+        loadImages = settings.loadImages
+        gMobilizer = settings.gMobilizer
+        settingsComplete = true
         mainPage.start()
     }
 
     function saveSettingValue(key, value) {
         console.log('save setting: '+key+' = '+value)
-        appWindow.settings[key] = value;
         Storage.insertSetting(key, value);
     }
 
@@ -119,31 +122,31 @@ PageStackWindow {
                 text: 'Open links with <br/>Google Mobilizer'
                 Switch {
                     id: gMobilizerSwitch
-                    checked: appWindow.settings.gMobilizer
+                    checked: appWindow.gMobilizer
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 30
-                    onCheckedChanged: gMobilizerChanged()
+                    onCheckedChanged: (settingsComplete === true) ? gMobilizerChanged() : false
 
                     function gMobilizerChanged() {
-                        console.log('mobilizer: '+checked)
-                        appWindow.saveSettingValue('gMobilizer', checked)
-                     }
-                 }
+                        appWindow.saveSettingValue('gMobilizer',checked)
+                        appWindow.gMobilizer = checked
+                    }
+                }
             }
             MenuItem {
                 text: 'Load images'
                 Switch {
                     id: imagesSwitch
-                    checked: appWindow.settings.loadImages
+                    checked: appWindow.loadImages
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 30
-                    onCheckedChanged: loadImagesChanged()
+                    onCheckedChanged: (settingsComplete === true) ? loadImagesChanged() : false
 
                     function loadImagesChanged() {
-                        console.log('images: '+checked)
                         appWindow.saveSettingValue('loadImages', checked)
+                        appWindow.loadImages = checked
                     }
                  }
             }
