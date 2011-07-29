@@ -19,13 +19,17 @@ PageStackWindow {
         console.log('startup main')
         var defaults = {
             defaultNed:currentNed,
-            defaultTopic: currentTopic
+            defaultTopic: currentTopic,
+            loadImages: true,
+            gMobilizer: false
         }
         Storage.loadSettings(defaults, settingsLoaded);
     }
 
     function settingsLoaded(dbSettings) {
         settings = dbSettings
+        console.debug(settings.loadImages)
+        console.debug(settings.gMobilizer)
         currentNed = settings.defaultNed
         currentTopic = settings.defaultTopic
         currentTopicColor = Gnews.getTopicColor(currentTopic)
@@ -100,8 +104,7 @@ PageStackWindow {
     Menu {
         id: myMenu
         visualParent: pageStack
-        MenuLayout {
-            MenuItem { text: "Select edition"; onClicked: editionSelectionDialog.openDialog() }
+        MenuLayout {            
             MenuItem {
                 id:defaultNedButton
                 text: '<span style="color:grey;font-size:small">Default edition </span>  '+Gnews.getEditionLabel(appWindow.settings.defaultNed)
@@ -112,6 +115,40 @@ PageStackWindow {
                 text: '<span style="color:grey;font-size:small">Default topic </span>  '+Gnews.getConfTopicLabel(appWindow.settings.defaultTopic);
                 onClicked: defaultTopicDialog.openDialog()
             }
+            MenuItem {
+                text: 'Open links with <br/>Google Mobilizer'
+                Switch {
+                    id: gMobilizerSwitch
+                    checked: appWindow.settings.gMobilizer
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 30
+                    onCheckedChanged: gMobilizerChanged()
+
+                    function gMobilizerChanged() {
+                        console.log('mobilizer: '+checked)
+                        appWindow.saveSettingValue('gMobilizer', checked)
+                     }
+                 }
+            }
+            MenuItem {
+                text: 'Load images'
+                Switch {
+                    id: imagesSwitch
+                    checked: appWindow.settings.loadImages
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 30
+                    onCheckedChanged: loadImagesChanged()
+
+                    function loadImagesChanged() {
+                        console.log('images: '+checked)
+                        appWindow.saveSettingValue('loadImages', checked)
+                    }
+                 }
+            }
+
+            MenuItem { text: "Select edition"; onClicked: editionSelectionDialog.openDialog() }
         }
     }
 }
