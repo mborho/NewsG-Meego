@@ -137,10 +137,44 @@ PageStackWindow {
         id:topicManager
     }
 
+    Dialog {
+       id: aboutDialog
+       content:Item {
+            id: name
+            width: parent.width
+            height: 300
+            Text {
+                font.pixelSize:20
+                color: "white"
+                anchors.centerIn: parent
+                text: parent.getAboutMsg()
+                textFormat: Text.RichText
+                wrapMode: Text.WordWrap
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
+            function getAboutMsg() {
+                 var msg = '<h1>NewsG for Meego</h1>';
+                 msg += '<p>&#169; 2011, Martin Borho <a href="mailto:martin@borho.net">martin@borho.net</a><br/>';
+                 msg += 'License: GNU General Public License (GPL) Vers.2<br/>';
+                 msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a>';
+                 msg += '<br/><div><b>Changelog:</b><br/>'
+                 msg += '<div>* 0.1.0 -initial release</div>';
+                 msg += '</div>';
+                 msg += '</p>';
+                 return msg
+            }
+        }
+    }
+
     Menu {
         id: myMenu
         visualParent: pageStack
-        MenuLayout {            
+        MenuLayout {
+            MenuItem {
+                id:aboutButton
+                text: 'About'
+                onClicked: aboutDialog.open()
+            }
             MenuItem {
                 id:defaultNedButton
                 text: '<span style="color:grey;font-size:small">Default edition </span>  '+Gnews.getEditionLabel(appWindow.settings.defaultNed)
