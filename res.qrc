@@ -12,6 +12,6 @@
         <file>qml/NewsList.qml</file>
         <file>qml/gfx/dummy.png</file>
         <file>qml/gfx/down.png</file>
-        <file>qml/TopicManagerDialog.qml</file>
+        <file>qml/TopicsManagerDialog.qml</file>
     </qresource>
 </RCC>

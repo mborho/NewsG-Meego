@@ -750,7 +750,21 @@ function getEditionList() {
 }
 
 function getEditionTopics(edition) {
-   return gnewsEditions[edition].topics;
+    var topics = {}
+    var max = gnewsEditions[edition].topics.length
+    for(var x=0;max > x;x++) {
+        topics[gnewsEditions[edition].topics[x].value] = gnewsEditions[edition].topics[x]
+    }
+    return topics;
+}
+
+function getConfTopics() {
+    var topics = {}
+    var max = confTopics.length
+    for(var x=0;max > x;x++) {
+        topics[confTopics[x].value] = confTopics[x];
+    }
+    return topics;
 }
 
 function getTopicColor(topic) {

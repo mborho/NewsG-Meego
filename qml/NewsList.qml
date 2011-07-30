@@ -7,10 +7,6 @@ Rectangle {
     width: parent.width
     height: parent.height-71
     anchors.bottom: parent.bottom
-    Component.onCompleted: onStartup()
-    function onStartup() {
-        console.log('startup newslist')
-    }
 
     function doRequest() {
         if(mainPage.resultPage == 1) {

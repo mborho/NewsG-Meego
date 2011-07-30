@@ -5,11 +5,6 @@ Page {
     id: mainPage
     tools: commonTools
     property int resultPage: 1
-    Component.onCompleted: onStartup()
-
-    function onStartup() {
-        console.log('startup mainPage')
-    }
 
     function start() {
         setTopicLabel()

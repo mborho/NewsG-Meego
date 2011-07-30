@@ -23,7 +23,6 @@ SelectionDialog {
     function accept() {
         var editions = Gnews.getEditionList();
         var selectedNed = editions[selectedIndex];
-        console.log(selectedIndex);
         appWindow.currentNed = selectedNed.value
         close();
         mainPage.setTopicLabel()

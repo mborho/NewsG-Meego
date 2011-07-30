@@ -46,7 +46,8 @@ OTHER_FILES += \
     qml/DefaultEditionDialog.qml \
     qml/DefaultTopicDialog.qml \
     qml/NewsListWebView.qml \
-    qml/TopicManagerDialog.qml
+    qml/TopicManagerDialog.qml \
+    qml/TopicsManagerDialog.qml
 
 RESOURCES += \
     res.qrc

@@ -1,8 +1,6 @@
 // Copyright 2011 Martin Borho <martin@borho.net>
 // GPL2 - see license.txt for details
 
-
-
 function getConnection() {
     return openDatabaseSync("NewsGMeego", "1.0", "KeyValueStorage", 10);
 }
@@ -21,7 +19,7 @@ function initStorage() {
     console.log('initialise storage');
     db = getConnection()
 //    executeSql("Drop TABLE settings");
-    executeSql('CREATE TABLE IF NOT EXISTS settings(key TEXT, value TEXT)');
+    executeSql('CREATE TABLE IF NOT EXISTS settings(key TEXT UNIQUE, value TEXT)');
 }
 
 var db = initStorage();
@@ -31,7 +29,7 @@ function loadSettings(settings, callBack) {
     var rs = executeSql('SELECT * FROM settings','');
     for(var i = 0; i < rs.rows.length; i++) {
         if(rs.rows.item(i).value !== '') settings[rs.rows.item(i).key] = rs.rows.item(i).value
-//        r += 'key: '+rs.rows.item(i).key + ", value: " + rs.rows.item(i).value + "\n"
+//        console.log('key: '+rs.rows.item(i).key + ", value: " + rs.rows.item(i).value);
     }
     callBack(settings);
 }

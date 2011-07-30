@@ -11,20 +11,23 @@ PageStackWindow {
     property string currentNed: "us"
     property string currentTopic: "h"
     property string currentTopicColor: "#6B90DA"
+    property variant topicsOrder: ["h","w","n","b","t","p","e","s","m","ir","po"]
+    property variant topicsHidden: []
     property bool loadImages: true
-    property bool gMobilizer: false
+    property bool gMobilizer: false    
     property bool settingsComplete: false
     Component.onCompleted: onStartup()
 
     MainPage{id: mainPage}
 
     function onStartup() {
-        console.log('startup main')
         var defaults = {
             defaultNed:currentNed,
             defaultTopic: currentTopic,
             loadImages: loadImages,
-            gMobilizer: gMobilizer
+            gMobilizer: gMobilizer,
+            topicsOrder: JSON.stringify(topicsOrder),
+            topicsHidden: JSON.stringify(topicsHidden),
         }
         Storage.loadSettings(defaults, settingsLoaded);
     }
@@ -36,6 +39,8 @@ PageStackWindow {
         currentTopicColor = Gnews.getTopicColor(currentTopic)
         loadImages = settings.loadImages
         gMobilizer = settings.gMobilizer
+        topicsOrder = JSON.parse(settings.topicsOrder)
+        topicsHidden = JSON.parse(settings.topicsHidden)
         settingsComplete = true
         mainPage.start()
     }
@@ -43,6 +48,30 @@ PageStackWindow {
     function saveSettingValue(key, value) {
         console.log('save setting: '+key+' = '+value)
         Storage.insertSetting(key, value);
+    }
+
+    function isHiddenTopic(topic) {
+        var max = appWindow.topicsHidden.length;
+        for(var j=0; max > j;j++) {
+            if(topic == appWindow.topicsHidden[j]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function getManagedTopics(unOrderedTopics) {
+        var topics = [];
+        var max = appWindow.topicsOrder.length;
+        for(var i=0;i< max;i++) {
+            var data = unOrderedTopics[appWindow.topicsOrder[i]];
+            data.visibility = true;
+            if(isHiddenTopic(appWindow.topicsOrder[i])) {
+                data.visibility = false;
+            }
+            topics.push(data);
+        }
+        return topics;
     }
 
     function changeDefaultNedLabel(newLabel) {
@@ -104,6 +133,10 @@ PageStackWindow {
         id:defaultTopicDialog
     }
 
+    TopicsManagerDialog {
+        id:topicManager
+    }
+
     Menu {
         id: myMenu
         visualParent: pageStack
@@ -150,7 +183,13 @@ PageStackWindow {
                     }
                  }
             }
-
+            MenuItem {
+                text: "Manage topics"
+                onClicked: {
+                    topicManager.loadModel();
+                    pageStack.push(topicManager);
+                }
+            }
             MenuItem { text: "Select edition"; onClicked: editionSelectionDialog.openDialog() }
         }
     }
