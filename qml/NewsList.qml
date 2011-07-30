@@ -7,10 +7,12 @@ Rectangle {
     width: parent.width
     height: parent.height-71
     anchors.bottom: parent.bottom
+    property string moreLabel: ''
 
     function doRequest() {
         if(mainPage.resultPage == 1) {
             clearList();
+            moreLabel = Gnews.getMoreLabel(appWindow.currentNed);
         }
         appWindow.startSpinner();
         var gnews = new Gnews.Gnews();
@@ -162,7 +164,7 @@ Rectangle {
                     id:relToggleText
                     width: parent.width
                     font.bold: true
-                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" cellpadding="0" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:7px;background-color:#fff;">'+((newsRelateds.visible) ? '▲' : '▼')+'   more sources   '+((newsRelateds.visible) ? '▲' : '▼')+'</td></tr></table>'
+                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" cellpadding="0" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:7px;background-color:#fff;">'+((newsRelateds.visible) ? '▲' : '▼')+'   '+newsList.moreLabel+'   '+((newsRelateds.visible) ? '▲' : '▼')+'</td></tr></table>'
                     font.pointSize: 17
                     color: appWindow.currentTopicColor
                     height: 55

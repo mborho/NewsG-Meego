@@ -784,6 +784,10 @@ function getTopicLabel(edition, topic) {
   return 'News';
 }
 
+function getMoreLabel(ned) {
+    return gnewsEditions[ned].more;
+}
+
 function getConfTopicLabel(topic) {
     var max = confTopics.length
     for(var x=0;max > x;x++) {
