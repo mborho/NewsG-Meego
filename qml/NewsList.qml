@@ -41,8 +41,8 @@ Rectangle {
             if(items[x].image === undefined || appWindow.loadImages === false) items[x].image = false;
             item.image = items[x].image
             if(item.image) {
-                item.image.width = 130;
-                item.image.height =parseInt((130/item.image.tbWidth)*item.image.tbHeight);
+                item.image.width = 140;
+                item.image.height =parseInt((140/item.image.tbWidth)*item.image.tbHeight);
             }
             item.header = getHeader(title, items[x].unescapedUrl , byline);
             item.content = buildContentString(items[x].content, items[x].image)
@@ -75,9 +75,9 @@ Rectangle {
     function buildContentString(content, image) {
         var text = '';
         if(image) {
-            text += '<table style="float:left;margin: 10px 15px -20px 0px;padding-bottom:0px;"><tr>';
+            text += '<table style="float:left;margin: 5px 10px -5px 0px;padding-bottom:0px;"><tr>';
             text += '<td width="'+image.width+' valign="middle"><img src="gfx/dummy.png" style="background-color:#fff;" height="'+image.height+'" width="'+image.width+'" /></td>';
-            text += '<tr/></table>';
+            text += '</tr></table>';
         }
         text += content+''
         return text
@@ -150,8 +150,19 @@ Rectangle {
                 anchors.left: newsContent.left
                 height: image.height
                 width: image.width
+                opacity: 0
                 visible: (header !== "" && image) ? true : false
-                fillMode:Image.PreserveAspectFit
+                fillMode:Image.PreserveAspectCrop
+                onStatusChanged: if (status == Image.Ready) opacity = 1
+                Behavior on opacity {
+                     NumberAnimation {
+                         from: 0.0; to: 1.0
+                         duration: 500
+                         easing {
+                             type: Easing.InOutCubic
+                         }
+                     }
+                 }
             }
 
             Rectangle {
@@ -184,6 +195,7 @@ Rectangle {
                     anchors.top: relToggleText.bottom
                     visible:false
                     Text {
+                        id: newsRelatedsText
                         width:parent.width-30
                         anchors.top:  newsRelateds.top
                         anchors.topMargin: 15
@@ -197,7 +209,17 @@ Rectangle {
                         color:"#000"
                         wrapMode: Text.WordWrap
                         onLinkActivated: entryClicked(link)
-                    }
+                        opacity: 0
+                        Behavior on opacity {
+                             NumberAnimation {
+                                 from: 0.0; to: 1.0
+                                 duration: 500
+                                 easing {
+                                     type: Easing.InOutCubic
+                                 }
+                             }
+                         }
+                    }                    
                 }
                 Rectangle {
                     id:newsRelatedBottom
@@ -210,8 +232,10 @@ Rectangle {
                 function showRelateds() {
                     if (newsRelateds.visible === true) {
                         newsRelateds.visible = false;
+                        newsRelatedsText.opacity = 0
                     } else {
                         newsRelateds.visible = true;
+                        newsRelatedsText.opacity = 1
                     }
                 }
             }
