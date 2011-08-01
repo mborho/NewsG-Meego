@@ -157,9 +157,9 @@ Rectangle {
             Rectangle {
                 id: newsRelatedToggle
                 width:parent.width
-                height: (newsRelateds.visible ===true) ? childrenRect.height : relToggleText.height
+                height: (newsRelateds.visible === true) ? childrenRect.height : ((relateds !== "") ? relToggleText.height : 0)
                 anchors.top: newsContent.bottom
-                visible: (header !== "") ? true : false
+                visible: (header !== "" && relateds !== '') ? true : false
                 Text {
                     id:relToggleText
                     width: parent.width
@@ -216,8 +216,17 @@ Rectangle {
                 }
             }
             Rectangle {
+                id:newsNoRelatedBottom
+                height:2
+                color: appWindow.currentTopicColor
+                anchors.top: newsContent.bottom
+                anchors.topMargin: 15
+                width: parent.width
+                visible: (relateds === "" && header !== "") ? true : false
+            }
+            Rectangle {
                 height:15
-                width:parent.width                
+                width:parent.width
             }
         }
     }

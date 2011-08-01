@@ -6,8 +6,7 @@ Rectangle {
     id:topicSelector
     height:71
     width: parent.width
-    color: (topicArea.pressed) ? "#000" : appWindow.currentTopicColor
-    opacity: (topicArea.pressed) ? 0.5: 1
+    color: (topicArea.pressed) ? "#585858" : appWindow.currentTopicColor
     z:3
     Label {
         id: topicLabelSelected
