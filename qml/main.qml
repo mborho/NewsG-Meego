@@ -97,7 +97,10 @@ PageStackWindow {
     ToolBarLayout {
         id: commonTools
         visible: true
-//        ToolIcon { iconId: "toolbar-back"; onClicked: { myMenu.close(); pageStack.pop(); } }
+//        ToolButton {
+//            id: topicToolButton
+//            text: appWindow.currentTopicLabel
+//        }
         BusyIndicator {
             id: loadingSpinner
             running: false

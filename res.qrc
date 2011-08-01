@@ -13,5 +13,6 @@
         <file>qml/gfx/dummy.png</file>
         <file>qml/gfx/down.png</file>
         <file>qml/TopicsManagerDialog.qml</file>
+        <file>qml/gfx/topics_down.png</file>
     </qresource>
 </RCC>
