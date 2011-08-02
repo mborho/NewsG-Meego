@@ -213,7 +213,7 @@ Rectangle {
                         Behavior on opacity {
                              NumberAnimation {
                                  from: 0.0; to: 1.0
-                                 duration: 500
+                                 duration: 300
                                  easing {
                                      type: Easing.InOutCubic
                                  }
