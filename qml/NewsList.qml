@@ -8,6 +8,7 @@ Rectangle {
     height: parent.height-71
     anchors.bottom: parent.bottom
     property string moreLabel: ''
+    property variant resultUrls: []
 
     function doRequest() {
         if(mainPage.resultPage == 1) {
@@ -23,6 +24,7 @@ Rectangle {
     }
 
     function clearList() {
+        newsList.resultUrls = []
         newsItemModel.clear();
     }
 
@@ -31,9 +33,14 @@ Rectangle {
         var maxPage = (response["responseData"]["cursor"]["pages"] !== undefined) ? response["responseData"]["cursor"]["pages"].length -1 : 1
         var items = response["responseData"]["results"]
         var max = items.length
-
+        var resultUrls = newsList.resultUrls
         var itemList = [];
         for(var x=0;max > x;x++) {
+            if(resultUrls.indexOf(items[x].unescapedUrl) > -1) {
+                // check double cluster
+                console.log('duplicate: '+items[x].unescapedUrl)
+                continue;
+            }
             var item = {}
             var date = new Date(items[x].publishedDate);
             var title = items[x].titleNoFormatting
@@ -47,8 +54,10 @@ Rectangle {
             item.header = getHeader(title, items[x].unescapedUrl , byline);
             item.content = buildContentString(items[x].content, items[x].image)
             item.relateds = buildRelatedString(items[x].relatedStories);
-            itemList[x] = item;
+            itemList.push(item);
+            resultUrls.push(items[x].unescapedUrl)
         }
+        newsList.resultUrls =  resultUrls
         if(currentPage < maxPage) {
             itemList.push({image:false,
                           header:'',
