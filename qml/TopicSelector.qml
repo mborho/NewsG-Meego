@@ -6,7 +6,7 @@ Rectangle {
     id:topicSelector
     height:71
     width: parent.width
-    color: (topicArea.pressed) ? "#585858" : appWindow.currentTopicColor
+    color: appWindow.currentTopicColor
     z:3
     Label {
         id: topicLabelSelected
@@ -32,6 +32,12 @@ Rectangle {
         id: topicArea
         anchors.fill: parent
         onClicked: (topicSelectMenu.status == DialogStatus.Closed) ? topicSelectMenu.openMenu() : topicSelectMenu.closeMenu()
+        onPressed:  {
+            parent.color = "#585858"
+        }
+        onReleased: {
+            parent.color = appWindow.currentTopicColor
+        }
     }
 
     function setTopicLabel() {
