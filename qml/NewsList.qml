@@ -45,14 +45,18 @@ Rectangle {
             var date = new Date(items[x].publishedDate);
             var title = items[x].titleNoFormatting
             var byline = items[x].publisher + ' / '+Qt.formatDate(date) +' '+String(Qt.formatTime(date)).substring(0,5)
-            if(items[x].image === undefined || appWindow.loadImages === false) items[x].image = false;
-            item.image = items[x].image
-            if(item.image) {
+            if(items[x].image === undefined || appWindow.loadImages === false) {
+                item.image  = false;
+            } else {
+                item.image = {}
+                item.image.url = items[x].image.url
+                item.image.tbWidth = items[x].image.tbWidth
+                item.image.tbHeight = items[x].image.tbHeight
                 item.image.width = 140;
                 item.image.height =parseInt((140/item.image.tbWidth)*item.image.tbHeight);
             }
             item.header = getHeader(title, items[x].unescapedUrl , byline);
-            item.content = buildContentString(items[x].content, items[x].image)
+            item.content = buildContentString(items[x].content, item.image)
             item.relateds = buildRelatedString(items[x].relatedStories);
             itemList.push(item);
             resultUrls.push(items[x].unescapedUrl)
@@ -159,6 +163,8 @@ Rectangle {
                 anchors.left: newsContent.left
                 height: image.height
                 width: image.width
+                sourceSize.width: (image) ? image.tbWidth : image.width
+                sourceSize.height: (image) ? image.tbHeigth : image.height
                 opacity: 0
                 visible: (header !== "" && image) ? true : false
                 fillMode:Image.PreserveAspectCrop
@@ -285,6 +291,7 @@ Rectangle {
         contentWidth: parent.width
         contentHeight: listContainer.height
         flickableDirection: Flickable.VerticalFlick
+        flickDeceleration: 2500
         Column {
             id:listContainer
             width:parent.width
@@ -293,7 +300,6 @@ Rectangle {
                  model: newsItemModel
                  delegate:  newsItemDelegate
                  width: parent.width
-//                 anchors.centerIn: parent
              }
         }
     }
