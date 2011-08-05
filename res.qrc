@@ -14,5 +14,7 @@
         <file>qml/gfx/down.png</file>
         <file>qml/TopicsManagerDialog.qml</file>
         <file>qml/gfx/topics_down.png</file>
+        <file>qml/SearchPage.qml</file>
+        <file>qml/gfx/search.png</file>
     </qresource>
 </RCC>

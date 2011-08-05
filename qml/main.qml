@@ -106,15 +106,25 @@ PageStackWindow {
             running: false
             visible: false
             platformStyle: BusyIndicatorStyle { size: "medium" }
-            anchors.right: settingsIcon.left
+            anchors.right: searchIcon.left
             anchors.rightMargin: 25
         }
         ToolIcon {
              id: refreshIcon
              platformIconId: "toolbar-refresh";
              visible: true
-             anchors.right: settingsIcon.left
+             anchors.right: searchIcon.left
              onClicked: (refreshIcon.visible == true) ? mainPage.doRefresh() : false
+        }
+        ToolIcon {
+             id: searchIcon
+             platformIconId: "toolbar-search";
+             visible: true
+             anchors.right: settingsIcon.left
+             onClicked: {
+                 searchPage.clear();
+                 pageStack.push(searchPage);
+            }
         }
         ToolIcon {
              id: settingsIcon
@@ -138,6 +148,10 @@ PageStackWindow {
 
     TopicsManagerDialog {
         id:topicManager
+    }
+
+    SearchPage {
+        id:searchPage
     }
 
     Dialog {

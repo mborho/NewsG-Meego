@@ -9,18 +9,46 @@ Rectangle {
     anchors.bottom: parent.bottom
     property string moreLabel: ''
     property variant resultUrls: []
+    property string query: ""
+    property string mainColor: appWindow.currentTopicColor
+    property string mainBgColor: "#FFFFFF"
 
     function doRequest() {
         if(mainPage.resultPage == 1) {
             clearList();
             moreLabel = Gnews.getMoreLabel(appWindow.currentNed);
+            newsList.query = ""
+        }
+        if(newsList.mainColor !== appWindow.currentTopicColor) {
+            newsList.mainColor = appWindow.currentTopicColor
+        }
+        if(newsList.mainBgColor !== Gnews.getTopicBgColor(appWindow.currentTopic)) {
+            newsList.mainBgColor = Gnews.getTopicBgColor(appWindow.currentTopic)
         }
         appWindow.startSpinner();
         var gnews = new Gnews.Gnews();
         gnews.page = mainPage.resultPage
         gnews.ned = appWindow.currentNed;
         gnews.topic = appWindow.currentTopic;
-        gnews.doRequest(renderNewsItems, newsList.page);
+        gnews.doRequest(renderNewsItems);
+    }
+
+    function doSearchRequest(queryTerm) {
+        if(searchPage.resultPage == 1) {
+            clearList();
+            moreLabel = Gnews.getMoreLabel(appWindow.currentNed);
+            newsList.query = queryTerm
+        }
+        if(newsList.mainColor !== searchPage.mainColor) {
+            newsList.mainColor = searchPage.mainColor
+            newsList.mainBgColor = "#D0E8FF" //#C3DEFF"
+        }
+        searchPage.startSpinner();
+        var gnews = new Gnews.Gnews();
+        gnews.page = searchPage.resultPage
+        gnews.ned = appWindow.currentNed;
+        gnews.query = newsList.query;
+        gnews.doRequest(renderNewsItems);
     }
 
     function clearList() {
@@ -69,14 +97,19 @@ Rectangle {
                           relateds:''})
         }
         max = itemList.length
+        var resultPage = (newsList.query !== "") ? searchPage.resultPage : mainPage.resultPage
         for(var j=0;max >j;j++) {
-            if(j == 0 && mainPage.resultPage != 1) {
+            if(j == 0 && resultPage != 1) {
                 newsItemModel.set(newsItemModel.count-1, itemList[j])
             } else {
                 newsItemModel.append(itemList[j])
             }
         }
-        appWindow.stopSpinner();
+        if(newsList.query === "") {
+            appWindow.stopSpinner();
+        } else {
+            searchPage.stopSpinner();
+        }
     }
 
     function getHeader(title, url, byline) {
@@ -115,7 +148,7 @@ Rectangle {
 
     ListModel {
         id: newsItemModel
-    }
+    }       
 
     Component {
         id:newsItemDelegate
@@ -190,9 +223,9 @@ Rectangle {
                     id:relToggleText
                     width: parent.width
                     font.bold: true
-                    text:  '<table style="background-color:'+appWindow.currentTopicColor+';" cellpadding="0" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:7px;background-color:#fff;">'+((newsRelateds.visible) ? '▲' : '▼')+'   '+newsList.moreLabel+'   '+((newsRelateds.visible) ? '▲' : '▼')+'</td></tr></table>'
+                    text:  '<table style="background-color:'+newsList.mainColor+';" cellpadding="0" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:7px;background-color:#fff;">'+((newsRelateds.visible) ? '▲' : '▼')+'   '+newsList.moreLabel+'   '+((newsRelateds.visible) ? '▲' : '▼')+'</td></tr></table>'
                     font.pointSize: 17
-                    color: appWindow.currentTopicColor
+                    color: newsList.mainColor
                     height: 55
                     verticalAlignment: Text.AlignBottom
                     textFormat: Text.RichText
@@ -206,7 +239,7 @@ Rectangle {
                     id:newsRelateds
                     width:parent.width
                     height: childrenRect.height+10
-                    color:Gnews.getTopicBgColor(appWindow.currentTopic)
+                    color: newsList.mainBgColor
                     anchors.top: relToggleText.bottom
                     visible:false
                     Text {
@@ -239,7 +272,7 @@ Rectangle {
                 Rectangle {
                     id:newsRelatedBottom
                     height:2
-                    color: appWindow.currentTopicColor
+                    color: newsList.mainColor
                     anchors.top: newsRelateds.bottom
                     width: parent.width
                     visible: newsRelateds.visible
@@ -257,7 +290,7 @@ Rectangle {
             Rectangle {
                 id:newsNoRelatedBottom
                 height:2
-                color: appWindow.currentTopicColor
+                color: newsList.mainColor
                 anchors.top: newsContent.bottom
                 anchors.topMargin: 15
                 width: parent.width
@@ -271,10 +304,16 @@ Rectangle {
     }
 
     function entryClicked(url) {
-        if(url == "more") {
-            mainPage.resultPage += 1
-            console.log('load page '+mainPage.resultPage)
-            doRequest()
+        if(url == "more") {            
+            if(newsList.query === "") {
+                mainPage.resultPage += 1
+                doRequest()
+                console.log('load page '+mainPage.resultPage)
+            } else {
+                searchPage.resultPage += 1
+                doSearchRequest(newsList.query)
+                console.log('load page '+searchPage.resultPage)
+            }
         } else {
             if(appWindow.gMobilizer === true) {
                    url = 'http://google.com/gwt/x?u='+encodeURIComponent(url)

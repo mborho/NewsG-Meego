@@ -27,7 +27,7 @@ Gnews.prototype.buildUrl = function() {
     return url;
 }
 
-Gnews.prototype.doRequest = function(callbackFunc, page) {
+Gnews.prototype.doRequest = function(callbackFunc) {
     var url = this.buildUrl();
     console.log(url)
     var xmlHttp = new XMLHttpRequest();
@@ -35,7 +35,7 @@ Gnews.prototype.doRequest = function(callbackFunc, page) {
         xmlHttp.open('GET', url, true);
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState == 4) {
-                var responseText = xmlHttp.responseText.replace(/^\ ?\(/, '').replace(/\)$/, '');
+                var responseText = xmlHttp.responseText.replace(/^\ ?\(/, '').replace(/\)$/, '');                
                 var myJSON = JSON.parse(responseText);
                 callbackFunc(myJSON);
             }
