@@ -84,9 +84,7 @@ Rectangle {
                 continue;
             }
             var item = {}
-            var date = new Date(items[x].publishedDate);
             var title = items[x].titleNoFormatting
-            var byline = items[x].publisher + ' / '+Qt.formatDate(date) +' '+String(Qt.formatTime(date)).substring(0,5)
             if(items[x].image === undefined || appWindow.loadImages === false) {
                 item.image  = false;
             } else {
@@ -97,7 +95,7 @@ Rectangle {
                 item.image.width = 140;
                 item.image.height =parseInt((140/item.image.tbWidth)*item.image.tbHeight);
             }
-            item.header = getHeader(title, items[x].unescapedUrl , byline);
+            item.header = getHeader(title, items[x].unescapedUrl , items[x].publisher, items[x].publishedDate);
             item.content = buildContentString(items[x].content, item.image)
             item.relateds = buildRelatedString(items[x].relatedStories);
             itemList.push(item);
@@ -111,7 +109,7 @@ Rectangle {
                           relateds:''})
         }
         max = itemList.length
-        var resultPage = newsList.resultPage;//(newsList.query !== "") ? searchPage.resultPage : mainPage.resultPage
+        var resultPage = newsList.resultPage;
         for(var j=0;max >j;j++) {
             if(j == 0 && resultPage != 1) {
                 newsItemModel.set(newsItemModel.count-1, itemList[j])
@@ -126,9 +124,11 @@ Rectangle {
         }
     }
 
-    function getHeader(title, url, byline) {
+    function getHeader(title, url, publisher, publishedDate) {
+        var date = new Date(publishedDate);
+        var dateStr = Qt.formatDate(date, 'ddd MMM d') +' '+String(Qt.formatTime(date,Qt.TextDate)).substring(0,5)
         var h = '<span style="font-size:17pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a></span><br/>'
-        h += '<span style="font-size:14pt">'+byline+'</span>'
+        h += '<span style="font-size:15pt;">'+publisher +'</span>  - <span style="font-style:italic;font-size:14pt">'+dateStr+'</span>'
         return h
     }
 
