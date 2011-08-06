@@ -10,6 +10,7 @@ var Gnews = function() {
     this.offset = 8,
     this.topic = '',
     this.query = '',
+    this.sort = '',
 
     this.test = function() {
         return this.name;
@@ -21,6 +22,7 @@ Gnews.prototype.buildUrl = function() {
     var url = this.api_base+'&ned='+this.ned+'&start='+start;
     if(this.query != '') {
         url += '&q='+encodeURIComponent(this.query);
+        url += (this.sort !== "") ? '&scoring='+this.sort : '';
     } else {
         url += '&topic='+encodeURIComponent(this.topic);
     }

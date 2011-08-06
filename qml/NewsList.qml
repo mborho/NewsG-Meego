@@ -7,51 +7,59 @@ Rectangle {
     width: parent.width
     height: parent.height-71
     anchors.bottom: parent.bottom
+    property int resultPage: 1
     property string moreLabel: ''
     property variant resultUrls: []
     property string query: ""
+    property bool querySort: false
     property string mainColor: appWindow.currentTopicColor
     property string mainBgColor: "#FFFFFF"
 
-    function doRequest() {
-        if(mainPage.resultPage == 1) {
-            clearList();
-            moreLabel = Gnews.getMoreLabel(appWindow.currentNed);
-            newsList.query = ""
-        }
-        if(newsList.mainColor !== appWindow.currentTopicColor) {
-            newsList.mainColor = appWindow.currentTopicColor
-        }
-        if(newsList.mainBgColor !== Gnews.getTopicBgColor(appWindow.currentTopic)) {
-            newsList.mainBgColor = Gnews.getTopicBgColor(appWindow.currentTopic)
-        }
-        appWindow.startSpinner();
+    function doRequest(queryTerm, querySort) {
+        newsList.query = (queryTerm !== undefined) ? queryTerm : "";
+        newsList.querySort = (querySort !== undefined) ? querySort : false;
+        prepareModel();
+        setColors();
         var gnews = new Gnews.Gnews();
-        gnews.page = mainPage.resultPage
+        gnews.page = newsList.resultPage
         gnews.ned = appWindow.currentNed;
-        gnews.topic = appWindow.currentTopic;
+        if(newsList.query !== "") {
+            gnews.query = newsList.query;
+            if(querySort === true) {
+                gnews.sort = "d";
+            }
+            searchPage.startSpinner();
+        } else {
+            appWindow.startSpinner();
+            gnews.topic = appWindow.currentTopic;
+        }
         gnews.doRequest(renderNewsItems);
     }
 
-    function doSearchRequest(queryTerm) {
-        if(searchPage.resultPage == 1) {
-            clearList();
-            moreLabel = Gnews.getMoreLabel(appWindow.currentNed);
-            newsList.query = queryTerm
+    function setColors() {
+        if(newsList.query !== "") {
+            if(newsList.mainColor !== searchPage.mainColor) {
+                newsList.mainColor = searchPage.mainColor
+                newsList.mainBgColor = "#D0E8FF" //#C3DEFF"
+            }
+        } else {
+            if(newsList.mainColor !== appWindow.currentTopicColor) {
+                newsList.mainColor = appWindow.currentTopicColor
+            }
+            if(newsList.mainBgColor !== Gnews.getTopicBgColor(appWindow.currentTopic)) {
+                newsList.mainBgColor = Gnews.getTopicBgColor(appWindow.currentTopic)
+            }
         }
-        if(newsList.mainColor !== searchPage.mainColor) {
-            newsList.mainColor = searchPage.mainColor
-            newsList.mainBgColor = "#D0E8FF" //#C3DEFF"
-        }
-        searchPage.startSpinner();
-        var gnews = new Gnews.Gnews();
-        gnews.page = searchPage.resultPage
-        gnews.ned = appWindow.currentNed;
-        gnews.query = newsList.query;
-        gnews.doRequest(renderNewsItems);
     }
 
-    function clearList() {
+    function prepareModel() {
+        if(newsList.resultPage == 1) {
+            clearModel();
+            moreLabel = Gnews.getMoreLabel(appWindow.currentNed);
+        }
+    }
+
+    function clearModel() {
         newsList.resultUrls = []
         newsItemModel.clear();
     }
@@ -97,7 +105,7 @@ Rectangle {
                           relateds:''})
         }
         max = itemList.length
-        var resultPage = (newsList.query !== "") ? searchPage.resultPage : mainPage.resultPage
+        var resultPage = newsList.resultPage;//(newsList.query !== "") ? searchPage.resultPage : mainPage.resultPage
         for(var j=0;max >j;j++) {
             if(j == 0 && resultPage != 1) {
                 newsItemModel.set(newsItemModel.count-1, itemList[j])
@@ -305,15 +313,9 @@ Rectangle {
 
     function entryClicked(url) {
         if(url == "more") {            
-            if(newsList.query === "") {
-                mainPage.resultPage += 1
-                doRequest()
-                console.log('load page '+mainPage.resultPage)
-            } else {
-                searchPage.resultPage += 1
-                doSearchRequest(newsList.query)
-                console.log('load page '+searchPage.resultPage)
-            }
+            newsList.resultPage += 1
+            console.log('load page '+newsList.resultPage)
+            doRequest(newsList.query, newsList.querySort);
         } else {
             if(appWindow.gMobilizer === true) {
                    url = 'http://google.com/gwt/x?u='+encodeURIComponent(url)

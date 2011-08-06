@@ -4,7 +4,6 @@ import com.meego 1.0
 Page {
     id: mainPage
     tools: commonTools
-    property int resultPage: 1
 
     function start() {
         setTopicLabel()
@@ -12,8 +11,8 @@ Page {
     }
 
     function doRefresh() {
-        mainPage.resultPage = 1
-        newsList.doRequest();
+       newsList.resultPage = 1
+       newsList.doRequest();
     }
 
     function setTopicLabel() {

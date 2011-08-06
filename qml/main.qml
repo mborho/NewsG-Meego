@@ -97,34 +97,31 @@ PageStackWindow {
     ToolBarLayout {
         id: commonTools
         visible: true
-//        ToolButton {
-//            id: topicToolButton
-//            text: appWindow.currentTopicLabel
-//        }
+        ToolIcon {
+             id: searchIcon
+             platformIconId: "toolbar-search";
+             visible: true
+             anchors.right: refreshIcon.left
+             onClicked: {
+                 searchPage.startup();
+                 pageStack.push(searchPage);
+            }
+        }
         BusyIndicator {
             id: loadingSpinner
             running: false
             visible: false
             platformStyle: BusyIndicatorStyle { size: "medium" }
-            anchors.right: searchIcon.left
+            anchors.right: settingsIcon.left
             anchors.rightMargin: 25
+            anchors.verticalCenter: parent.verticalCenter
         }
         ToolIcon {
              id: refreshIcon
              platformIconId: "toolbar-refresh";
              visible: true
-             anchors.right: searchIcon.left
-             onClicked: (refreshIcon.visible == true) ? mainPage.doRefresh() : false
-        }
-        ToolIcon {
-             id: searchIcon
-             platformIconId: "toolbar-search";
-             visible: true
              anchors.right: settingsIcon.left
-             onClicked: {
-                 searchPage.clear();
-                 pageStack.push(searchPage);
-            }
+             onClicked: (refreshIcon.visible == true) ? mainPage.doRefresh() : false
         }
         ToolIcon {
              id: settingsIcon

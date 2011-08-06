@@ -46,7 +46,7 @@ Rectangle {
 
     function topicSelectorClicked(topicId, topicLabel, topicColor) {
         appWindow.currentTopic = topicId
-        mainPage.resultPage = 1
+        newsList.resultPage = 1
         topicLabelSelected.text = topicLabel;
         topicSelector.color = topicColor;
         appWindow.currentTopicColor = topicColor;
