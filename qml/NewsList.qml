@@ -18,6 +18,7 @@ Rectangle {
     function doRequest(queryTerm, querySort) {
         newsList.query = (queryTerm !== undefined) ? queryTerm : "";
         newsList.querySort = (querySort !== undefined) ? querySort : false;
+        noNewsResults.visible = false;
         prepareModel();
         setColors();
         var gnews = new Gnews.Gnews();
@@ -70,6 +71,11 @@ Rectangle {
         var items = response["responseData"]["results"]
         var max = items.length
         var resultUrls = newsList.resultUrls
+        if(max === 0 && newsList.resultPage === 1) {
+            console.log('no results')
+            noNewsResults.visible = true;
+        }
+
         var itemList = [];
         for(var x=0;max > x;x++) {
             if(resultUrls.indexOf(items[x].unescapedUrl) > -1) {
@@ -344,4 +350,22 @@ Rectangle {
              }
         }
     }
+
+    Rectangle {
+        id:noNewsResults
+        width:parent.width
+        height:50
+        anchors.top: parent.top
+        anchors.topMargin: 60
+        visible: false
+        Text {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "- - - - - - - - - - - - - - - - "
+            font.pixelSize: 20
+            font.wordSpacing:5
+            font.bold: true
+            color: newsList.mainColor
+        }
+    }
+
 }
