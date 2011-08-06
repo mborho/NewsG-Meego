@@ -5,7 +5,7 @@ import "js/gnews.js" as Gnews
 
 PageStackWindow {
     id: appWindow
-
+    showStatusBar: false
     initialPage: mainPage
     property variant settings:  {}
     property string currentNed: "us"
