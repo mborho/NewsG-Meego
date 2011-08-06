@@ -172,7 +172,8 @@ PageStackWindow {
                  msg += 'License: GNU General Public License (GPL) Vers.2<br/>';
                  msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a>';
                  msg += '<br/><div><b>Changelog:</b><br/>'
-                 msg += '<div>* 0.1.0 -initial release</div>';
+                 msg += '<div>* 0.2.2 - search added, minor tweaks</div>';
+                 msg += '<div>* 0.1.0 - initial release</div>';
                  msg += '</div>';
                  msg += '</p>';
                  return msg
