@@ -507,6 +507,60 @@ var gnewsEditions = {
             {label: "Самые популярные", value: "po"}
         ]
     },
+    "en_il" : {
+        ned : "en_il",
+        name : "Israel",
+        more : "More sources",
+        topics : [
+            {label: "Top Stories", value: "h"},
+            {label: "World", value: "w"},
+            {label: "Israel.", value: "n"},
+            {label: "Business", value: "b"},
+            {label: "Science/Technology", value: "t"},
+            {label: "Politics", value: "p"},
+            {label: "Entertainment", value: "e"},
+            {label: "Sports", value: "s"},
+            {label: "Health", value: "m"},
+            {label: "Spotlight", value: "ir"},
+            {label: "Most Popular", value: "po"}
+        ]
+    },
+    "iw_il": {
+        ned : "iw_il",
+        name : "ישראל (Israel)",
+        more : "עוד מקורות ",
+        topics : [
+            {label: "סיפורים מובילים", value: "h"},
+            {label: "עולם", value: "w"},
+            {label: "ישראל", value: "n"},
+            {label: "עסקים", value: "b"},
+            {label: "מדע/טכנולוגיה", value: "t"},
+            {label: "פוליטיקה", value: "p"},
+            {label: "תרבות ובידור", value: "e"},
+            {label: "ספורט", value: "s"},
+            {label: "בריאות", value: "m"},
+            {label: "סיפורים מעניינים", value: "ir"},
+            {label: "הפופולריים ביותר", value: "po"},
+        ]
+    },
+    "ar_me" : {
+        ned : "ar_me",
+        name : "العالم العربي (Arab world)",
+        more : "المزيد من المصادر ",
+        topics : [
+            {label: "المزيد من أهم الأخبار", value: "h"},
+            {label: "العالم", value: "w"},
+            {label: "العالم العربي", value: "n"},
+            {label: "أعمال", value: "b"},
+            {label: "علوم/تكنولوجيا", value: "t"},
+            {label: "سياسة", value: "p"},
+            {label: "ترفيه", value: "e"},
+            {label: "رياضة", value: "s"},
+            {label: "صحة", value: "m"},
+            {label: "تحت الضوء", value: "ir"},
+            {label: "أكثر شيوعًا", value: "po"}
+        ]
+    },
      "es_us" : {
         ned : "es_us",
         name : "Estados Unidos",
@@ -623,6 +677,60 @@ var gnewsEditions = {
             {label: "Top Stories", value: "h"},
             {label: "World", value: "w"},
             {label: "New Zealand", value: "n"},
+            {label: "Business", value: "b"},
+            {label: "Sci/Tech", value: "t"},
+            {label: "Politics", value: "p"},
+            {label: "Entertainment", value: "e"},
+            {label: "Sports", value: "s"},
+            {label: "Health", value: "m"},
+            {label: "Spotlight", value: "ir"},
+            {label: "Most Popular", value: "po"}
+        ]
+    },
+    "in" : {
+        ned : "in",
+        name : "India",
+        more : "More sources",
+        topics : [
+            {label: "Top Stories", value: "h"},
+            {label: "World", value: "w"},
+            {label: "India", value: "n"},
+            {label: "Business", value: "b"},
+            {label: "Technology", value: "t"},
+            {label: "Politics", value: "p"},
+            {label: "Entertainment", value: "e"},
+            {label: "Sports", value: "s"},
+            {label: "Health", value: "m"},
+            {label: "Spotlight", value: "ir"},
+            {label: "Most Popular", value: "po"}
+        ]
+    },
+    "en_my" : {
+        ned : "en_my",
+        name : "Malaysia",
+        more : "More sources",
+        topics : [
+            {label: "Top Stories", value: "h"},
+            {label: "World", value: "w"},
+            {label: "Malaysia", value: "n"},
+            {label: "Business", value: "b"},
+            {label: "Sci/Tech", value: "t"},
+            {label: "Politics", value: "p"},
+            {label: "Entertainment", value: "e"},
+            {label: "Sports", value: "s"},
+            {label: "Health", value: "m"},
+            {label: "Spotlight", value: "ir"},
+            {label: "Most Popular", value: "po"}
+        ]
+    },
+    "en_sg" : {
+        ned : "en_sg",
+        name : "Singapore",
+        more : "More sources",
+        topics : [
+            {label: "Top Stories", value: "h"},
+            {label: "World", value: "w"},
+            {label: "Singapore", value: "n"},
             {label: "Business", value: "b"},
             {label: "Sci/Tech", value: "t"},
             {label: "Politics", value: "p"},
