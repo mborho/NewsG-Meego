@@ -175,7 +175,10 @@ PageStackWindow {
                  msg += '<div>* 0.2.2 - search added, minor tweaks</div>';
                  msg += '<div>* 0.1.0 - initial release</div>';
                  msg += '</div>';
-                 msg += '</p>';
+                 msg += '</p><br/>';
+                 msg += '<table><tr><td valign="middle">powered by </td>';
+                 msg += '<td valign="middle"> <img src="gfx/glogo.png" height="41" width="114" /></td>';
+                 msg += '</tr></table>';
                  return msg
             }
         }

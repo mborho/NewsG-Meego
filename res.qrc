@@ -16,5 +16,6 @@
         <file>qml/gfx/topics_down.png</file>
         <file>qml/SearchPage.qml</file>
         <file>qml/gfx/search.png</file>
+        <file>qml/gfx/glogo.png</file>
     </qresource>
 </RCC>
