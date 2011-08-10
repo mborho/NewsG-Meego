@@ -12,12 +12,16 @@ Menu {
         var nedTopics = Gnews.getEditionTopics(appWindow.currentNed);
         var topics = appWindow.getManagedTopics(nedTopics);
         var max = topics.length
+
+        var calc_height = parseInt((parent.height-55)/(max - appWindow.topicsHidden.length))
+        var height = (calc_height > 80) ? 80 : calc_height;
+
         // eval is evil, i know
         for(var x = 0; max > x; x++) {
             var evil_eval = 'topic_'+x+'.topic = "'+topics[x].value+'";';
             evil_eval += 'topic_'+x+'.text= "'+topics[x].label+'";';
             evil_eval += 'topic_'+x+'.visible = '+topics[x].visibility+';'
-            evil_eval += 'topic_'+x+'.height = '+((topics[x].visibility)?65:0)+';'
+            evil_eval += 'topic_'+x+'.height = '+((topics[x].visibility)?height:0)+';'
             eval(evil_eval);
         }
         open();
