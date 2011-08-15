@@ -16,6 +16,7 @@ PageStackWindow {
     property bool loadImages: true
     property bool gMobilizer: false    
     property bool settingsComplete: false
+    property bool orientationChangeInProgress: false
     Component.onCompleted: onStartup()
 
     MainPage{id: mainPage}
@@ -30,6 +31,14 @@ PageStackWindow {
             topicsHidden: JSON.stringify(topicsHidden),
         }
         Storage.loadSettings(defaults, settingsLoaded);
+    }
+
+    function orientationChangeFinished () {
+        orientationChangeInProgress = false
+    }
+
+    function orientationChangeStarted () {
+        orientationChangeInProgress = true
     }
 
     function settingsLoaded(dbSettings) {

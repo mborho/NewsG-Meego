@@ -38,6 +38,10 @@ Page {
     }
 
     function handleTopicVisibility(show, topic) {
+        if(appWindow.orientationChangeInProgress === true) {
+            return false;
+        }
+
         var newHidden = appWindow.topicsHidden
         if(show) {
             newHidden.splice(newHidden.indexOf(topic),1);
