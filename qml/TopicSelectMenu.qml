@@ -14,7 +14,7 @@ Menu {
         var max = topics.length
 
         var calc_height = parseInt((parent.height-55)/(max - appWindow.topicsHidden.length))
-        var height = (calc_height > 80) ? 80 : calc_height;
+        var height = (calc_height > 80) ? 80 : ((calc_height < 66) ? 66 : calc_height);
 
         // eval is evil, i know
         for(var x = 0; max > x; x++) {
