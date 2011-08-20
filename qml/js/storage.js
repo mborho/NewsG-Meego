@@ -1,5 +1,5 @@
 // Copyright 2011 Martin Borho <martin@borho.net>
-// GPLv3 - see license.txt for details
+// GPLv3q - see license.txt for details
 
 function getConnection() {
     return openDatabaseSync("NewsGMeego", "1.0", "KeyValueStorage", 10);

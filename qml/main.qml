@@ -114,7 +114,6 @@ PageStackWindow {
              id: searchIcon
              platformIconId: "toolbar-search";
              visible: true
-             anchors.right: refreshIcon.left
              onClicked: {
                  searchPage.startup();
                  pageStack.push(searchPage);
@@ -125,21 +124,17 @@ PageStackWindow {
             running: false
             visible: false
             platformStyle: BusyIndicatorStyle { size: "medium" }
-            anchors.right: settingsIcon.left
-            anchors.rightMargin: 25
             anchors.verticalCenter: parent.verticalCenter
         }
         ToolIcon {
              id: refreshIcon
              platformIconId: "toolbar-refresh";
              visible: true
-             anchors.right: settingsIcon.left
              onClicked: (refreshIcon.visible == true) ? mainPage.doRefresh() : false
         }
         ToolIcon {
              id: settingsIcon
              platformIconId: "toolbar-view-menu";
-             anchors.right: parent===undefined ? undefined : parent.right
              onClicked: (myMenu.status == DialogStatus.Closed) ? myMenu.open() : myMenu.close()
         }
     }
