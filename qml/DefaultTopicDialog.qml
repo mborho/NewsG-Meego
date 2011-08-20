@@ -12,6 +12,7 @@ SelectionDialog {
     selectedIndex: 1
 
     function openDialog() {
+        defaultTopicModel.clear();
         var max = Gnews.confTopics.length;
         for(var x=0; max > x;x++) {
             if(Gnews.confTopics[x].value == appWindow.settings.defaultTopic) {

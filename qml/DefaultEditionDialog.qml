@@ -12,6 +12,7 @@ SelectionDialog {
     selectedIndex: 1
 
     function openDialog() {
+        defaultEditionModel.clear();
         var editions = Gnews.getEditionList();
         var max = editions.length;
         for(var x=0; max > x;x++) {
