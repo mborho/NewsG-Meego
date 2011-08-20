@@ -17,5 +17,6 @@
         <file>qml/SearchPage.qml</file>
         <file>qml/gfx/search.png</file>
         <file>qml/gfx/glogo.png</file>
+        <file>qml/FontSizeDialog.qml</file>
     </qresource>
 </RCC>

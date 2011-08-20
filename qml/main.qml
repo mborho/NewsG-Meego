@@ -19,6 +19,7 @@ PageStackWindow {
     property variant topicsHidden: []
     property bool loadImages: true
     property bool gMobilizer: false    
+    property int fontSizeFactor: 0
     property bool settingsComplete: false
     property bool orientationChangeInProgress: false
     Component.onCompleted: onStartup()
@@ -31,6 +32,7 @@ PageStackWindow {
             defaultTopic: currentTopic,
             loadImages: loadImages,
             gMobilizer: gMobilizer,
+            fontSizeFactor: fontSizeFactor,
             topicsOrder: JSON.stringify(topicsOrder),
             topicsHidden: JSON.stringify(topicsHidden),
         }
@@ -52,6 +54,7 @@ PageStackWindow {
         currentTopicColor = Gnews.getTopicColor(currentTopic)
         loadImages = settings.loadImages
         gMobilizer = settings.gMobilizer
+        fontSizeFactor = parseInt(settings.fontSizeFactor)
         topicsOrder = JSON.parse(settings.topicsOrder)
         topicsHidden = JSON.parse(settings.topicsHidden)
         settingsComplete = true
@@ -147,6 +150,10 @@ PageStackWindow {
         id:defaultEditionDialog
     }
 
+    FontSizeDialog {
+        id: fontSizeDialog
+    }
+
     DefaultTopicDialog {
         id:defaultTopicDialog
     }
@@ -201,6 +208,11 @@ PageStackWindow {
                 id:aboutButton
                 text: 'About'
                 onClicked: aboutDialog.open()
+            }
+            MenuItem {
+                id:fontSizeButton
+                text: '<span style="color:grey;font-size:small">Font size </span>  '+ ((appWindow.fontSizeFactor >= 1) ? '+' : '')+((appWindow.fontSizeFactor === 0) ? '+- ' : '') + appWindow.fontSizeFactor
+                onClicked: fontSizeDialog.openDialog()
             }
             MenuItem {
                 id:defaultNedButton

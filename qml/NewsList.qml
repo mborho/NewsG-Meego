@@ -18,6 +18,7 @@ Rectangle {
     property bool querySort: false
     property string mainColor: appWindow.currentTopicColor
     property string mainBgColor: "#FFFFFF"
+    property int fontSizeFactor: appWindow.fontSizeFactor
 
     function doRequest(queryTerm, querySort) {
         newsList.query = (queryTerm !== undefined) ? queryTerm : "";
@@ -131,8 +132,8 @@ Rectangle {
     function getHeader(title, url, publisher, publishedDate) {
         var date = new Date(publishedDate);
         var dateStr = Qt.formatDate(date, 'ddd MMM d') +' '+String(Qt.formatTime(date,Qt.TextDate)).substring(0,5)
-        var h = '<span style="font-size:17pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a></span><br/>'
-        h += '<span style="font-size:15pt;">'+publisher +'</span>  - <span style="font-style:italic;font-size:14pt">'+dateStr+'</span>'
+        var h = '<span style="font-size:'+(17+newsList.fontSizeFactor)+'pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a></span><br/>'
+        h += '<span style="font-size:'+(15+newsList.fontsizeFactor)+'pt;">'+publisher +'</span>  - <span style="font-style:italic;font-size:'+(14+newsList.fontSizeFactor)+'pt">'+dateStr+'</span>'
         return h
     }
 
@@ -182,7 +183,7 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: header
                 textFormat: Text.RichText
-                font.pointSize: 15
+                font.pointSize: 15 + newsList.fontSizeFactor
                 lineHeight:1.1
                 wrapMode: Text.WordWrap
                 visible: (header !== "") ? true : false;
@@ -196,7 +197,7 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: content
                 textFormat: Text.RichText
-                font.pointSize: 15
+                font.pointSize: 15 + newsList.fontSizeFactor
                 lineHeight:1.1
                 wrapMode: Text.WordWrap
                 onLinkActivated: entryClicked(link)
@@ -242,7 +243,7 @@ Rectangle {
                     width: parent.width
                     font.bold: true
                     text:  '<table style="background-color:'+newsList.mainColor+';" cellpadding="0" width="'+parent.width+'"><tr><td width="15%"></td><td width="85%" align="center" style="padding:7px;background-color:#fff;">'+((newsRelateds.visible) ? '▲' : '▼')+'   '+newsList.moreLabel+'   '+((newsRelateds.visible) ? '▲' : '▼')+'</td></tr></table>'
-                    font.pointSize: 17
+                    font.pointSize: 17 + newsList.fontSizeFactor
                     color: newsList.mainColor
                     height: 55
                     verticalAlignment: Text.AlignBottom
@@ -271,7 +272,7 @@ Rectangle {
                         text: relateds
                         lineHeight: 1.1
                         textFormat: Text.RichText
-                        font.pointSize: 16
+                        font.pointSize: 16 + newsList.fontSizeFactor
                         color:"#000"
                         wrapMode: Text.WordWrap
                         onLinkActivated: entryClicked(link)

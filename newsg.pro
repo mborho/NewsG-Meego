@@ -48,7 +48,8 @@ OTHER_FILES += \
     qml/NewsListWebView.qml \
     qml/TopicManagerDialog.qml \
     qml/TopicsManagerDialog.qml \
-    qml/SearchPage.qml
+    qml/SearchPage.qml \
+    qml/FontSizeDialog.qml
 
 RESOURCES += \
     res.qrc
