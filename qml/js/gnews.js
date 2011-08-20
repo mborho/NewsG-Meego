@@ -1,7 +1,7 @@
 .pragma library
 
 // Copyright 2011 Martin Borho <martin@borho.net>
-// GPL2 - see license.txt for details
+// GPLv3 - see license.txt for details
 
 var Gnews = function() {
     this.api_base = 'http://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=large',
