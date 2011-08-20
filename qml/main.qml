@@ -185,8 +185,9 @@ PageStackWindow {
                  var msg = '<h1>NewsG for Meego</h1>';
                  msg += '<p>&#169; 2011, Martin Borho <a href="mailto:martin@borho.net">martin@borho.net</a><br/>';
                  msg += 'License: GNU General Public License (GPL) Vers.2<br/>';
-                 msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a>';
-                 msg += '<br/><div><b>Changelog:</b><br/>'
+                 msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a><br/>';
+                 msg += 'Icon from <a href="http://thenounproject.com">The Noun Project</a><br/>'
+                 msg += '<div><b>Changelog:</b><br/>'
                  msg += '<div>* 0.2.8 - fullscreen mode, more editions,bugs<br/>fixed, new icon</div>';
                  msg += '<div>* 0.2.2 - search added, minor tweaks</div>';
                  msg += '<div>* 0.1.0 - initial release</div>';
