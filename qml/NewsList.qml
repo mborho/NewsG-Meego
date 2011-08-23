@@ -100,7 +100,8 @@ Rectangle {
                 item.image.width = 140;
                 item.image.height =parseInt((140/item.image.tbWidth)*item.image.tbHeight);
             }
-            item.header = getHeader(title, items[x].unescapedUrl , items[x].publisher, items[x].publishedDate);
+            item.header = getHeader(title, items[x].publisher, items[x].publishedDate);
+            item.link = items[x].unescapedUrl;
             item.content = buildContentString(items[x].content, item.image)
             item.relateds = buildRelatedString(items[x].relatedStories);
             itemList.push(item);
@@ -129,10 +130,10 @@ Rectangle {
         }
     }
 
-    function getHeader(title, url, publisher, publishedDate) {
+    function getHeader(title, publisher, publishedDate) {
         var date = new Date(publishedDate);
         var dateStr = Qt.formatDate(date, 'ddd MMM d') +' '+String(Qt.formatTime(date,Qt.TextDate)).substring(0,5)
-        var h = '<span style="font-size:'+(17+newsList.fontSizeFactor)+'pt;"><a style="text-decoration:none;font-weight:bold;color:#000" href="'+url+'">'+title+'</a></span><br/>'
+        var h = '<span style="font-size:'+(17+newsList.fontSizeFactor)+'pt;font-weight:bold;color:#000">'+title+'</span><br/>'
         h += '<span style="font-size:'+(15+newsList.fontsizeFactor)+'pt;">'+publisher +'</span>  - <span style="font-style:italic;font-size:'+(14+newsList.fontSizeFactor)+'pt">'+dateStr+'</span>'
         return h
     }
@@ -187,7 +188,10 @@ Rectangle {
                 lineHeight:1.1
                 wrapMode: Text.WordWrap
                 visible: (header !== "") ? true : false;
-                onLinkActivated: entryClicked(link)
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: entryClicked(link)
+                }
             }
             Text {
                 id:newsContent
