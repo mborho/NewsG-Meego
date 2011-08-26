@@ -133,7 +133,7 @@ Rectangle {
     function getHeader(title, publisher, publishedDate) {
         var date = new Date(publishedDate);
         var dateStr = Qt.formatDate(date, 'ddd MMM d') +' '+String(Qt.formatTime(date,Qt.TextDate)).substring(0,5)
-        var h = '<span style="font-size:'+(17+newsList.fontSizeFactor)+'pt;font-weight:bold;color:#000">'+title+'</span><br/>'
+        var h = '<span style="font-size:'+(17+newsList.fontSizeFactor)+'pt;font-weight:bold;">'+title+'</span><br/>'
         h += '<span style="font-size:'+(15+newsList.fontsizeFactor)+'pt;">'+publisher +'</span>  - <span style="font-style:italic;font-size:'+(14+newsList.fontSizeFactor)+'pt">'+dateStr+'</span>'
         return h
     }
@@ -191,6 +191,12 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: entryClicked(link)
+                    onPressed:  {
+                        parent.color = "#585858";
+                    }
+                    onReleased:  {
+                        parent.color = '#000';
+                    }
                 }
             }
             Text {
