@@ -458,7 +458,7 @@ var gnewsEditions = {
         name : "Ελλάδα",
         more : "Περισσότερες πηγές",
         topics : [
-            {label: "Κυριότερες ειδήσειςΚυριότερες ειδήσεις", value: "h"},
+            {label: "Κυριότερες ειδήσεις", value: "h"},
             {label: "Κόσμος", value: "w"},
             {label: "Ελλάδα", value: "n"},
             {label: "Εργασία", value: "b"},
@@ -561,6 +561,42 @@ var gnewsEditions = {
             {label: "أكثر شيوعًا", value: "po"}
         ]
     },
+    "ar_ae" : {
+       ned : "ar_ae",
+       name : "الإمارات (UAE)",
+       more : "المزيد من المصادر ",
+       topics : [
+           {label: "تغطية شاملة", value: "h"},
+           {label: "العالم", value: "w"},
+           {label: "أخبار محلية", value: "n"},
+           {label: "أعمال", value: "b"},
+           {label: "علوم/تكنولوجيا", value: "t"},
+           {label: "سياسة", value: "p"},
+           {label: "ترفيه", value: "e"},
+           {label: "رياضة", value: "s"},
+           {label: "صحة", value: "m"},
+           {label: "تحت الضوء", value: "ir"},
+           {label: "أكثر شيوعًا", value: "po"},
+       ]
+   },
+    "ar_lb" : {
+       ned : "ar_lb",
+       name : "لبنان (Lebanon)",
+       more : "المزيد من المصادر",
+       topics : [
+           {label: "تغطية شاملة", value: "h"},
+           {label: "العالم", value: "w"},
+           {label: "أخبار محلية", value: "n"},
+           {label: "أعمال", value: "b"},
+           {label: "علوم/تكنولوجيا", value: "t"},
+           {label: "سياسة", value: "p"},
+           {label: "ترفيه", value: "e"},
+           {label: "رياضة", value: "s"},
+           {label: "صحة", value: "m"},
+           {label: "تحت الضوء", value: "ir"},
+           {label: "أكثر شيوعًا", value: "po"},
+       ]
+   },
      "es_us" : {
         ned : "es_us",
         name : "Estados Unidos",
@@ -811,6 +847,24 @@ var gnewsEditions = {
             {label: "健康", value: "m"},
             {label: "焦點新聞", value: "ir"},//none
             {label: "熱門", value: "po"}
+        ]
+    },
+    "vi_vn" : {
+        ned : "vi_vn",
+        name : "Việt Nam",
+        more : "Nguồn khác",
+        topics : [
+            {label: "Tin bài Hàng", value: "h"},
+            {label: "Thế giới", value: "w"},
+            {label: "Việt Nam", value: "n"},
+            {label: "Kinh doanh", value: "b"},
+            {label: "Khoa học/Công nghệ", value: "t"},
+            {label: "Chính trị", value: "p"},
+            {label: "Giải trí", value: "e"},
+            {label: "Thể thao", value: "s"},
+            {label: "Sức khoẻ", value: "m"},
+            {label: "Tiêu điểm", value: "ir"},
+            {label: "Phổ biến Nhất", value: "po"}
         ]
     },
 //    "kr" : {
