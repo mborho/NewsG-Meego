@@ -191,12 +191,9 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: entryClicked(link)
-                    onPressed:  {
-                        parent.color = "#585858";
-                    }
-                    onReleased:  {
-                        parent.color = '#000';
-                    }
+                    onPressed:  {parent.color = "#585858";}
+                    onReleased:  {parent.color = '#000';}
+                    onCanceled:  {parent.color = '#000';}
                 }
             }
             Text {
