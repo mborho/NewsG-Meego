@@ -85,7 +85,7 @@ Rectangle {
         for(var x=0;max > x;x++) {
             if(resultUrls.indexOf(items[x].unescapedUrl) > -1) {
                 // check double cluster
-                console.log('duplicate: '+items[x].unescapedUrl)
+                // console.log('duplicate: '+items[x].unescapedUrl)
                 continue;
             }
             var item = {}
@@ -116,12 +116,12 @@ Rectangle {
         }
         max = itemList.length
         var resultPage = newsList.resultPage;
+        var delPos = (resultPage != 1) ? newsItemModel.count-1 : false;
         for(var j=0;max >j;j++) {
-            if(j == 0 && resultPage != 1) {
-                newsItemModel.set(newsItemModel.count-1, itemList[j])
-            } else {
-                newsItemModel.append(itemList[j])
-            }
+            newsItemModel.append(itemList[j])
+        }
+        if(delPos !== false) {
+            newsItemModel.remove(delPos);// remove reload item
         }
         if(newsList.query === "") {
             appWindow.stopSpinner();
@@ -217,29 +217,46 @@ Rectangle {
                     onClicked: entryClicked('more')
                 }
             }
-            Image {
-                id: newsImage
-                source: (image) ? image.url : "gfx/dummy.png"
+            Item {
                 anchors.top: newsContent.top
                 anchors.topMargin: 5
                 anchors.left: newsContent.left
                 height: image.height
                 width: image.width
-                sourceSize.width: (image) ? image.tbWidth : image.width
-                sourceSize.height: (image) ? image.tbHeigth : image.height
-                opacity: 0
                 visible: (header !== "" && image) ? true : false
-                fillMode:Image.PreserveAspectCrop
-                onStatusChanged: if (status == Image.Ready) opacity = 1
-                Behavior on opacity {
-                     NumberAnimation {
-                         from: 0.0; to: 1.0
-                         duration: 500
-                         easing {
-                             type: Easing.InOutCubic
+                Image {
+                    id: newsImage
+                    source: (image) ? image.url : "gfx/dummy.png"
+                    height: image.height
+                    width: image.width
+                    sourceSize.width: (image) ? image.tbWidth : image.width
+                    sourceSize.height: (image) ? image.tbHeigth : image.height
+                    opacity: 0
+                    fillMode:Image.PreserveAspectCrop
+                    onStatusChanged: {
+                        if (status == Image.Ready) {
+                            imageIndicator.running = false;
+                            imageIndicator.opacity = 0;
+                            opacity = 1
+                        }
+                    }
+                    Behavior on opacity {
+                         NumberAnimation {
+                             from: 0.0; to: 1.0
+                             duration: 500
+                             easing {
+                                 type: Easing.InOutCubic
+                             }
                          }
                      }
-                 }
+                }
+                BusyIndicator {
+                    id: imageIndicator
+                    running: true
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    platformStyle: BusyIndicatorStyle { size: "small" }
+                }
             }
 
             Rectangle {
