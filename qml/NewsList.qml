@@ -155,10 +155,19 @@ Rectangle {
 
     Component {
         id:newsItemDelegate
-        Item {
+        Rectangle {
             id: newsItemBox
             width:newsList.width
             height: (header !== "") ? childrenRect.height : 80;
+            color: "#FFF"
+            Behavior on height {
+                 NumberAnimation {
+                     duration: 600
+                     easing {
+                         type: Easing.OutQuint
+                     }
+                 }
+             }
             Text {
                 id:newsTitle
                 width:parent.width-30
@@ -272,22 +281,11 @@ Rectangle {
                         id:relatedsLoader
                         width:parent.width
                         anchors.centerIn: parent
-                        opacity: 0
-                        Behavior on opacity {
-                             NumberAnimation {
-                                 from: 0.0; to: 1.0
-                                 duration: 300
-                                 easing {
-                                     type: Easing.InOutCubic
-                                 }
-                             }
-                         }
                     }
                     function loadRelateds() {
                         relatedsLoader.source = "NewsItemRelateds.qml"
                         relatedsLoader.item.fillRelateds(relateds)
                     }
-
                  }
                 Rectangle {
                     id:newsRelatedBottom
@@ -300,11 +298,9 @@ Rectangle {
                 function showRelateds() {
                     if (newsRelateds.visible === true) {
                         newsRelateds.visible = false;
-                        relatedsLoader.opacity = 0
                     } else {
                         newsRelateds.loadRelateds()
                         newsRelateds.visible = true;
-                        relatedsLoader.opacity = 1
                     }
                 }
             }

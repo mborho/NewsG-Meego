@@ -30,7 +30,6 @@ Rectangle {
         id:relatedsModel
      }
 
-
     Component {
         id: relatedDelegate
         Text {
