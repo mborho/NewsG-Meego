@@ -49,7 +49,8 @@ OTHER_FILES += \
     qml/TopicManagerDialog.qml \
     qml/TopicsManagerDialog.qml \
     qml/SearchPage.qml \
-    qml/FontSizeDialog.qml
+    qml/FontSizeDialog.qml \
+    qml/NewsItemRelateds.qml
 
 RESOURCES += \
     res.qrc
@@ -62,3 +63,4 @@ qtcAddDeployment()
 CONFIG += qdeclarative-boostable
 QMAKE_CXXFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
 QMAKE_LFLAGS += -pie -rdynamic
+

@@ -103,7 +103,7 @@ Rectangle {
             item.header = getHeader(title, items[x].publisher, items[x].publishedDate);
             item.link = items[x].unescapedUrl;
             item.content = buildContentString(items[x].content, item.image)
-            item.relateds = buildRelatedString(items[x].relatedStories);
+            item.relateds = items[x].relatedStories
             itemList.push(item);
             resultUrls.push(items[x].unescapedUrl)
         }
@@ -148,23 +148,6 @@ Rectangle {
         text += content+''
         return text
     }
-
-    function buildRelatedString(relateds) {
-        var text = '';
-        if(relateds === undefined) return '';
-        var max = relateds.length
-        if(max > 0) {
-            text += '<p>'
-            for(var x=0;max>x;x++) {
-                var rel = relateds[x]
-                text += '<a style="text-decoration:none;font-weight:bold;color:#000" href="'+rel.unescapedUrl+'" >'+rel.titleNoFormatting+'</a> ';
-                text += rel.publisher+'<br/>'
-            }
-            text += '</p>'
-        }
-        return text
-    }
-
 
     ListModel {
         id: newsItemModel
@@ -215,6 +198,7 @@ Rectangle {
                 }
             }
             Item {
+                id: newsImageContainer
                 anchors.top: newsContent.top
                 anchors.topMargin: 5
                 anchors.left: newsContent.left
@@ -281,25 +265,13 @@ Rectangle {
                 Rectangle {
                     id:newsRelateds
                     width:parent.width
-                    height: childrenRect.height+10
-                    color: newsList.mainBgColor
+                    height:relatedsLoader.height
                     anchors.top: relToggleText.bottom
                     visible:false
-                    Text {
-                        id: newsRelatedsText
-                        width:parent.width-30
-                        anchors.top:  newsRelateds.top
-                        anchors.topMargin: 15
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenterOffset: 10
-                        verticalAlignment: Text.AlignVCenter
-                        text: relateds
-                        lineHeight: 1.1
-                        textFormat: Text.RichText
-                        font.pointSize: 16 + newsList.fontSizeFactor
-                        color:"#000"
-                        wrapMode: Text.WordWrap
-                        onLinkActivated: entryClicked(link)
+                    Loader {
+                        id:relatedsLoader
+                        width:parent.width
+                        anchors.centerIn: parent
                         opacity: 0
                         Behavior on opacity {
                              NumberAnimation {
@@ -310,8 +282,13 @@ Rectangle {
                                  }
                              }
                          }
-                    }                    
-                }
+                    }
+                    function loadRelateds() {
+                        relatedsLoader.source = "NewsItemRelateds.qml"
+                        relatedsLoader.item.fillRelateds(relateds)
+                    }
+
+                 }
                 Rectangle {
                     id:newsRelatedBottom
                     height:2
@@ -323,10 +300,11 @@ Rectangle {
                 function showRelateds() {
                     if (newsRelateds.visible === true) {
                         newsRelateds.visible = false;
-                        newsRelatedsText.opacity = 0
+                        relatedsLoader.opacity = 0
                     } else {
+                        newsRelateds.loadRelateds()
                         newsRelateds.visible = true;
-                        newsRelatedsText.opacity = 1
+                        relatedsLoader.opacity = 1
                     }
                 }
             }
