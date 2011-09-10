@@ -330,6 +330,8 @@ Rectangle {
                    url = 'http://google.com/gwt/x?u='+encodeURIComponent(url)
             }
             console.log('Opening '+url);
+//            webBrowser.urlString = url;
+//            pageStack.push(webBrowser);
             Qt.openUrlExternally ( url )
         }
     }
@@ -371,4 +373,7 @@ Rectangle {
         }
     }
 
+//    WebBrowser {
+//        id:webBrowser
+//    }
 }
