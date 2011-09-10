@@ -164,7 +164,7 @@ Rectangle {
                  NumberAnimation {
                      duration: 600
                      easing {
-                         type: Easing.OutQuint
+                         type: Easing.InOutQuint
                      }
                  }
              }
