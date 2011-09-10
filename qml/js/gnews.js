@@ -305,8 +305,8 @@ var gnewsEditions = {
             {label: "Espectáculos", value: "e"},
             {label: "Deportes", value: "s"},
             {label: "Salud", value: "m"},
-            {label: "Destacados", value: "ir"},
-            {label: "Más popular", value: "po"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
         ]
     },
     "pt-PT_pt" : {
@@ -507,6 +507,42 @@ var gnewsEditions = {
             {label: "Самые популярные", value: "po"}
         ]
     },
+    "ru_ua" : {
+        ned : "ru_ua",
+        name : "Украина (Ukraine)",
+        more : "Дополнительные ресурсы",
+        topics : [
+            {label: "Главные новости", value: "h"},
+            {label: "В мире", value: "w"},
+            {label: "Украина", value: "n"},
+            {label: "Бизнес", value: "b"},
+            {label: "Наука и техника", value: "t"},
+            {label: "Политика", value: "p"},
+            {label: "Культура", value: "e"},
+            {label: "Спорт", value: "s"},
+            {label: "Здоровье", value: "m"},
+            {label: "Обзор", value: "ir"},
+            {label: "Самые популярные", value: "po"}
+        ]
+    },    
+    "uk_ua" : {
+        ned : "uk_ua",
+        name : "Україна (Ukraine)",
+        more : "Більше джерел",
+        topics : [
+            {label: "найпопулярніших розповідей", value: "h"},
+            {label: "Світ", value: "w"},
+            {label: "Україна", value: "n"},
+            {label: "Бізнес", value: "b"},
+            {label: "Наука та техніка", value: "t"},
+            {label: "Політика", value: "p"},
+            {label: "Розваги", value: "e"},
+            {label: "Спорт", value: "s"},
+            {label: "Здоров'я", value: "m"},
+            {label: "Цікаві історії", value: "ir"},
+            {label: "Найпопулярніші", value: "po"}
+        ]
+    }, 
     "en_il" : {
         ned : "en_il",
         name : "Israel",
@@ -548,7 +584,7 @@ var gnewsEditions = {
         name : "العالم العربي (Arab world)",
         more : "المزيد من المصادر ",
         topics : [
-            {label: "المزيد من أهم الأخبار", value: "h"},
+            {label: "أهم الأخبار", value: "h"},
             {label: "العالم", value: "w"},
             {label: "العالم العربي", value: "n"},
             {label: "أعمال", value: "b"},
@@ -559,6 +595,24 @@ var gnewsEditions = {
             {label: "صحة", value: "m"},
             {label: "تحت الضوء", value: "ir"},
             {label: "أكثر شيوعًا", value: "po"}
+        ]
+    },
+    "ar_eg" : {
+        ned : "ar_eg",
+        name : "مصر (Egypt)",
+        more : "المزيد من المصادر",
+        topics : [
+            {label: "أهم الأخبار", value: "h"},
+            {label: "العالم", value: "w"},
+            {label: "أخبار محلية", value: "n"},
+            {label: "أعمال", value: "b"},
+            {label: "علوم/تكنولوجيا", value: "t"},
+            {label: "سياسة", value: "p"},
+            {label: "ترفيه", value: "e"},
+            {label: "رياضة", value: "s"},
+            {label: "صحة", value: "m"},
+            {label: "تحت الضوء", value: "ir"},
+            {label: "أكثر شيوعًا", value: "po"},
         ]
     },
     "ar_ae" : {
@@ -578,7 +632,25 @@ var gnewsEditions = {
            {label: "تحت الضوء", value: "ir"},
            {label: "أكثر شيوعًا", value: "po"},
        ]
-   },
+   },       
+    "ar_sa" : {
+       ned : "ar_sa",
+       name : "السعودية (KSA)",
+       more : "المزيد من المصادر",
+       topics : [
+           {label: "أهم الأخبار", value: "h"},
+           {label: "العالم", value: "w"},
+           {label: "أخبار محلية", value: "n"},
+           {label: "أعمال", value: "b"},
+           {label: "علوم/تكنولوجيا", value: "t"},
+           {label: "سياسة", value: "p"},
+           {label: "ترفيه", value: "e"},
+           {label: "رياضة", value: "s"},
+           {label: "صحة", value: "m"},
+           {label: "تحت الضوء", value: "ir"},
+           {label: "أكثر شيوعًا", value: "po"},
+       ]
+   },   
     "ar_lb" : {
        ned : "ar_lb",
        name : "لبنان (Lebanon)",
@@ -611,8 +683,8 @@ var gnewsEditions = {
             {label: "Espectáculos", value: "e"},
             {label: "Deportes", value: "s"},
             {label: "Salud", value: "m"},
-            {label: "Destacados", value: "ir"},
-            {label: "Más popular", value: "po"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
         ]
     },
     "es_mx" : {
@@ -629,8 +701,8 @@ var gnewsEditions = {
             {label: "Espectáculos", value: "e"},
             {label: "Deportes", value: "s"},
             {label: "Salud", value: "m"},
-            {label: "Destacados", value: "ir"},
-            {label: "Más popular", value: "po"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
         ]
     },
     "es_ar" : {
@@ -647,8 +719,8 @@ var gnewsEditions = {
             {label: "Espectáculos", value: "e"},
             {label: "Deportes", value: "s"},
             {label: "Salud", value: "m"},
-            {label: "Destacados", value: "ir"},
-            {label: "Más popular", value: "po"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
         ]
     },
     "pt-BR_br" : {
@@ -667,6 +739,96 @@ var gnewsEditions = {
             {label: "Saúde", value: "m"},
             {label: "Em destaque", value: "ir"},//None
             {label: "Mais populares", value: "po"}
+        ]
+    },    
+    "es_cl" : {
+        ned : "es_cl",
+        name : "Chile",
+        more : "Más fuentes",
+        topics : [
+            {label: "Noticias destacadas", value: "h"},
+            {label: "Internacional", value: "w"},
+            {label: "Chile", value: "n"},
+            {label: "Economía", value: "b"},
+            {label: "Ciencia y Tecnología", value: "t"},
+            {label: "Política", value: "p"},
+            {label: "Espectáculos", value: "e"},
+            {label: "Deportes", value: "s"},
+            {label: "Salud", value: "m"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
+        ]
+    },
+    "es_co" : {
+        ned : "es_co",
+        name : "Colombia",
+        more : "Más fuentes",
+        topics : [
+            {label: "Noticias destacadas", value: "h"},
+            {label: "Internacional", value: "w"},
+            {label: "Colombia", value: "n"},
+            {label: "Economía", value: "b"},
+            {label: "Ciencia y Tecnología", value: "t"},
+            {label: "Política", value: "p"},
+            {label: "Espectáculos", value: "e"},
+            {label: "Deportes", value: "s"},
+            {label: "Salud", value: "m"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
+        ]
+    },
+    "es_cu" : {
+        ned : "es_cu",
+        name : "Cuba",
+        more : "Más fuentes",
+        topics : [
+            {label: "Noticias destacadas", value: "h"},
+            {label: "Internacional", value: "w"},
+            {label: "Cuba", value: "n"},
+            {label: "Economía", value: "b"},
+            {label: "Ciencia y Tecnología", value: "t"},
+            {label: "Política", value: "p"},
+            {label: "Espectáculos", value: "e"},
+            {label: "Deportes", value: "s"},
+            {label: "Salud", value: "m"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
+        ]
+    },
+    "es_pe" : {
+        ned : "es_pe",
+        name : "Perú",
+        more : "Más fuentes",
+        topics : [
+            {label: "Noticias destacadas", value: "h"},
+            {label: "Internacional", value: "w"},
+            {label: "Perú", value: "n"},
+            {label: "Economía", value: "b"},
+            {label: "Ciencia y Tecnología", value: "t"},
+            {label: "Política", value: "p"},
+            {label: "Espectáculos", value: "e"},
+            {label: "Deportes", value: "s"},
+            {label: "Salud", value: "m"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
+        ]
+    },
+    "es_ve" : {
+        ned : "es_ve",
+        name : "Venezuela",
+        more : "Más fuentes",
+        topics : [
+            {label: "Noticias destacadas", value: "h"},
+            {label: "Internacional", value: "w"},
+            {label: "Venezuela", value: "n"},
+            {label: "Economía", value: "b"},
+            {label: "Ciencia y Tecnología", value: "t"},
+            {label: "Política", value: "p"},
+            {label: "Espectáculos", value: "e"},
+            {label: "Deportes", value: "s"},
+            {label: "Salud", value: "m"},
+            {label: "De interés", value: "ir"},
+            {label: "Más populares", value: "po"},
         ]
     },
     "en_za" : {
@@ -741,6 +903,24 @@ var gnewsEditions = {
             {label: "Most Popular", value: "po"}
         ]
     },
+    "en_pk" : {
+        ned : "en_pk",
+        name : "Pakistan",
+        more : "More sources",
+        topics : [
+            {label: "Top Stories", value: "h"},
+            {label: "World", value: "w"},
+            {label: "Pakistan", value: "n"},
+            {label: "Business", value: "b"},
+            {label: "Sci/Tech", value: "t"},
+            {label: "Politics", value: "p"},
+            {label: "Entertainment", value: "e"},
+            {label: "Sports", value: "s"},
+            {label: "Health", value: "m"},
+            {label: "Spotlight", value: "ir"},
+            {label: "Most Popular", value: "po"}
+        ]
+    },      
     "en_my" : {
         ned : "en_my",
         name : "Malaysia",
@@ -777,6 +957,24 @@ var gnewsEditions = {
             {label: "Most Popular", value: "po"}
         ]
     },
+    "en_ph" : {
+        ned : "en_ph",
+        name : "Philippines",
+        more : "More sources",
+        topics : [
+            {label: "Top Stories", value: "h"},
+            {label: "World", value: "w"},
+            {label: "Philippines", value: "n"},
+            {label: "Business", value: "b"},
+            {label: "Sci/Tech", value: "t"},
+            {label: "Politics", value: "p"},
+            {label: "Entertainment", value: "e"},
+            {label: "Sports", value: "s"},
+            {label: "Health", value: "m"},
+            {label: "Spotlight", value: "ir"},
+            {label: "Most Popular", value: "po"}
+        ]
+    },    
     "jp" : {
         ned : "jp",
         name : "日本 (Japan)",
