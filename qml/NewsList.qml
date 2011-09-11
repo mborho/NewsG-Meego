@@ -252,9 +252,9 @@ Rectangle {
             Rectangle {
                 id: newsRelatedToggle
                 width:parent.width
-                height: (newsRelateds.visible === true) ? childrenRect.height : ((relateds !== "") ? relToggleText.height : 0)
+                height: (newsRelateds.visible === true) ? childrenRect.height : ((relateds) ? relToggleText.height : 0)
                 anchors.top: newsContent.bottom
-                visible: (header !== "" && relateds !== '') ? true : false
+                visible: (header !== "" && relateds) ? true : false
                 Text {
                     id:relToggleText
                     width: parent.width
@@ -311,7 +311,7 @@ Rectangle {
                 anchors.top: newsContent.bottom
                 anchors.topMargin: 15
                 width: parent.width
-                visible: (relateds === "" && header !== "") ? true : false
+                visible: (relateds === undefined && header !== "") ? true : false
             }
             Rectangle {
                 height:15
