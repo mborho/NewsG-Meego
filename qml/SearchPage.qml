@@ -26,7 +26,7 @@ Page {
 
     function doRefresh() {
         newsList.resultPage = 1
-        newsList.doRequest(searchInput.text);
+        newsList.doRequest(searchInput.text, searchPage.sortByDate);
     }
 
     function orderChanged() {
