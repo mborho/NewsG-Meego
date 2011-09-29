@@ -343,7 +343,6 @@ Rectangle {
         contentWidth: parent.width
         contentHeight: listContainer.height
         flickableDirection: Flickable.VerticalFlick
-        flickDeceleration: 2500
         Column {
             id:listContainer
             width:parent.width
