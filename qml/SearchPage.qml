@@ -14,12 +14,14 @@ Page {
     function startup() {
         searchInput.text = '';
         newsList.clearModel();
+        searchInput.focus = true;
     }
 
     function search() {
         if(searchInput.text !== "") {            
             newsList.resultPage = 1
             console.log('Search: '+searchInput.text)
+            searchSubmit.focus = true
             newsList.doRequest(searchInput.text, searchPage.sortByDate);
         }
     }
@@ -65,10 +67,10 @@ Page {
         TextField {
             id: searchInput
             placeholderText:  "Search"
-             anchors.verticalCenter: parent.verticalCenter
-             anchors.left: parent.left
-             anchors.leftMargin: 20
-             width: parent.width-searchSubmit.width-50
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            width: parent.width-searchSubmit.width-50
          }
         Image {
             id: searchSubmit
