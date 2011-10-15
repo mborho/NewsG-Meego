@@ -1,9 +1,11 @@
 # Add more folders to ship with the application, here
+folder_01.source = qml/newsg
+folder_01.target = qml
+DEPLOYMENTFOLDERS = folder_01
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-QT+= declarative
 symbian:TARGET.UID3 = 0xE16FB0CE
 
 # Smart Installer package's UID
@@ -21,50 +23,25 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # CONFIG += mobility
 # MOBILITY +=
 
+# Speed up launching on MeeGo/Harmattan when using applauncherd daemon
+CONFIG += qdeclarative-boostable
+
+# Add dependency to Symbian components
+# CONFIG += qt-components
+
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp
 
+# Please do not modify the following two lines. Required for deployment.
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()
 
 OTHER_FILES += \
-    qml/MainPage.qml \
-    qml/main.qml \
-    newsg.desktop \
-    newsg.svg \
-    newsg.png \
     qtc_packaging/debian_harmattan/rules \
     qtc_packaging/debian_harmattan/README \
+    qtc_packaging/debian_harmattan/manifest.aegis \
     qtc_packaging/debian_harmattan/copyright \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog \
-    qml/NewsList.qml \
-    qml/TopicSelector.qml \
-    qml/TopicSelectMenu.qml \
-    qml/EditionSelectionDialog.qml \
-    qml/js/storage.js \
-    qml/js/gnews.js \
-    qml/DefaultEditionDialog.qml \
-    qml/DefaultTopicDialog.qml \
-    qml/NewsListWebView.qml \
-    qml/TopicManagerDialog.qml \
-    qml/TopicsManagerDialog.qml \
-    qml/SearchPage.qml \
-    qml/FontSizeDialog.qml \
-    qml/NewsItemRelateds.qml \
-    qml/FlickableWebView.qml \
-    qml/WebBrowser.qml
-
-RESOURCES += \
-    res.qrc
-
-# Please do not modify the following two lines. Required for deployment.
-include(deployment.pri)
-qtcAddDeployment()
-
-# enable booster
-CONFIG += qdeclarative-boostable
-QMAKE_CXXFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
-QMAKE_LFLAGS += -pie -rdynamic
-
-
+    qtc_packaging/debian_harmattan/changelog
 
