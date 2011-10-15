@@ -158,8 +158,22 @@ PageStackWindow {
         id:defaultTopicDialog
     }
 
-    TopicsManagerDialog {
+    Loader {
         id:topicManager
+        onStatusChanged: {
+            if (topicManager.status == Loader.Ready) {
+                showTopicManager()
+            }
+        }
+    }
+
+    function showTopicManager() {
+        if (topicManager.status == Loader.Ready) {
+            topicManager.item.loadModel();
+            pageStack.push(topicManager.item);
+        } else {
+            topicManager.source = "TopicsManagerDialog.qml"
+        }
     }
 
     SearchPage {
@@ -261,9 +275,8 @@ PageStackWindow {
             }
             MenuItem {
                 text: "Manage topics"
-                onClicked: {
-                    topicManager.loadModel();
-                    pageStack.push(topicManager);
+                onClicked: {                    
+                    showTopicManager();
                 }
             }
             MenuItem { text: "Select edition"; onClicked: editionSelectionDialog.openDialog() }

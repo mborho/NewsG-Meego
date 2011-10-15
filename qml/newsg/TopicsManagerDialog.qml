@@ -96,7 +96,7 @@ Page {
                 anchors.left: topicNameText.right
                 anchors.leftMargin: 15
                 anchors.verticalCenter: parent.verticalCenter
-                onCheckedChanged: (loadingComplete) ? handleTopicVisibility(checked, value) : false
+                onCheckedChanged: (loadingComplete && status == PageStatus.Active) ? handleTopicVisibility(checked, value) : false
             }
 
             MouseArea {
