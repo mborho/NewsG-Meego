@@ -8,6 +8,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(QLatin1String("qml/newsg/main.qml"));
+    viewer->setAttribute(Qt::WA_NoSystemBackground);
     viewer->showExpanded();
 
     return app->exec();
