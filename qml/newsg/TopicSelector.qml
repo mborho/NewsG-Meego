@@ -3,7 +3,7 @@ Copyright 2011 Martin Borho <martin@borho.net>
 GPLv3 - see License.txt for details
 */
 import QtQuick 1.1
-import com.meego 1.0
+import com.nokia.meego 1.0
 import "js/gnews.js" as Gnews
 
 Rectangle {

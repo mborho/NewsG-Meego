@@ -3,7 +3,7 @@ Copyright 2011 Martin Borho <martin@borho.net>
 GPLv3 - see License.txt for details
 */
 import QtQuick 1.1
-import com.meego 1.0
+import com.nokia.meego 1.0
 import "js/storage.js" as Storage
 import "js/gnews.js" as Gnews
 
@@ -111,7 +111,7 @@ PageStackWindow {
     }
 
     ToolBarLayout {
-        id: commonTools
+        id:commonTools
         visible: true
         ToolIcon {
              id: searchIcon
@@ -219,30 +219,34 @@ PageStackWindow {
 
     Menu {
         id: myMenu
-        visualParent: pageStack
         MenuLayout {
             MenuItem {
                 id:aboutButton
                 text: 'About'
+                height:70
                 onClicked: aboutDialog.open()
             }
             MenuItem {
                 id:fontSizeButton
+                height:70
                 text: '<span style="color:grey;font-size:small">Font size </span>  '+ ((appWindow.fontSizeFactor >= 1) ? '+' : '')+((appWindow.fontSizeFactor === 0) ? '+- ' : '') + appWindow.fontSizeFactor
                 onClicked: fontSizeDialog.openDialog()
             }
             MenuItem {
                 id:defaultNedButton
+                height:70
                 text: '<span style="color:grey;font-size:small">Default edition </span>  '+Gnews.getEditionLabel(appWindow.settings.defaultNed)
                 onClicked: defaultEditionDialog.openDialog()
             }
             MenuItem {
                 id:defaultTopicButton
+                height:70
                 text: '<span style="color:grey;font-size:small">Default topic </span>  '+Gnews.getConfTopicLabel(appWindow.settings.defaultTopic);
                 onClicked: defaultTopicDialog.openDialog()
             }
             MenuItem {
                 text: 'Open links with <br/>Google Mobilizer'
+                height:70
                 Switch {
                     id: gMobilizerSwitch
                     checked: appWindow.gMobilizer
@@ -258,6 +262,7 @@ PageStackWindow {
                 }
             }
             MenuItem {
+                height:70
                 text: 'Load images'
                 Switch {
                     id: imagesSwitch
@@ -274,12 +279,17 @@ PageStackWindow {
                  }
             }
             MenuItem {
+                height:70
                 text: "Manage topics"
                 onClicked: {                    
                     showTopicManager();
                 }
             }
-            MenuItem { text: "Select edition"; onClicked: editionSelectionDialog.openDialog() }
+            MenuItem {
+                height:70
+                text: "Select edition"
+                onClicked: editionSelectionDialog.openDialog()
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ Copyright 2011 Martin Borho <martin@borho.net>
 GPLv3 - see License.txt for details
 */
 import QtQuick 1.1
-import com.meego 1.0
+import com.nokia.meego 1.0
 import "js/gnews.js" as Gnews
 
 SelectionDialog {
@@ -13,14 +13,7 @@ SelectionDialog {
     property int maxFont: 4
 
     function openDialog() {
-        fontSizeModel.clear();
-        for(var x=0; 9 > x; x++) {
-            var val = 8-maxFont-x;
-            if(val === appWindow.fontSizeFactor) {
-                selectedIndex = x;
-            }
-            fontSizeModel.append({name: (val > 0) ? '+'+val :val })
-        }
+        selectedIndex = 8-maxFont-appWindow.fontSizeFactor;
         open();
     }
 
@@ -34,5 +27,14 @@ SelectionDialog {
 
     model: ListModel {
         id: fontSizeModel
+        ListElement {name: "+4"}
+        ListElement {name: "+3"}
+        ListElement {name: "+2"}
+        ListElement {name: "+1"}
+        ListElement {name: "0"}
+        ListElement {name: "-1"}
+        ListElement {name: "-2"}
+        ListElement {name: "-3"}
+        ListElement {name: "-4"}
     }
 }
