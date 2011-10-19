@@ -202,11 +202,11 @@ PageStackWindow {
                  msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a><br/>';
                  msg += 'Icon from <a href="http://thenounproject.com">The Noun Project</a><br/>'
                  msg += '<div><b>Changelog:</b><br/>'
+                 msg += '<div>* 0.9.0 - modifications for PR1.1, bugfixes</div>';
                  msg += '<div>* 0.7.2 - search page modified, scrolling</div>';
                  msg += '<div>* 0.6.1 - ui improvements, editions added</div>';
                  msg += '<div>* 0.4.0 - more editions added, ui tweaks</div>';
                  msg += '<div>* 0.2.9 - fullscreen mode, more editions, new <br/>icon, option for font-size </div>';
-                 msg += '<div>* 0.2.2 - search added, minor tweaks</div>';
                  msg += '</div>';
                  msg += '</p><br/>';
                  msg += '<table><tr><td valign="middle">powered by </td>';
