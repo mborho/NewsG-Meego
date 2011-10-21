@@ -10,10 +10,9 @@ SelectionDialog {
     id: defaultEditionDialog
     titleText: "Set default edition"
     selectedIndex: 1
+    Component.onCompleted: onStartup();
 
-    function openDialog() {
-        defaultEditionModel.clear();
-        open();
+    function onStartup() {
         var editions = Gnews.getEditionList();
         var max = editions.length;
         for(var x=0; max > x;x++) {

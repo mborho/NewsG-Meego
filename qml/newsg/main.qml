@@ -292,7 +292,7 @@ PageStackWindow {
         }
         function show() {
             if (defaultEditionDialog.status == Loader.Ready) {
-                defaultEditionDialog.item.openDialog();
+                defaultEditionDialog.item.open();
             } else {
                 defaultEditionDialog.source = "DefaultEditionDialog.qml"
             }
@@ -310,7 +310,7 @@ PageStackWindow {
         }
         function show() {
             if (defaultTopicDialog.status == Loader.Ready) {
-                defaultTopicDialog.item.openDialog();
+                defaultTopicDialog.item.open();
             } else {
                 defaultTopicDialog.source = "DefaultTopicDialog.qml"
             }
