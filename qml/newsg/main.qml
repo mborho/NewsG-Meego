@@ -153,8 +153,8 @@ PageStackWindow {
         }
         function show() {
             if (searchPage.status == Loader.Ready) {
-                searchPage.item.startup();
                 pageStack.push(searchPage.item);
+                searchPage.item.startup();
             } else {
                 searchPage.source = "SearchPage.qml"
             }
