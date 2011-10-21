@@ -18,7 +18,7 @@ PageStackWindow {
     property variant topicsOrder: ["h","w","n","b","t","p","e","s","m","ir","po"]
     property variant topicsHidden: []
     property bool loadImages: true
-    property bool gMobilizer: false    
+    property bool gMobilizer: false
     property int fontSizeFactor: 0
     property bool settingsComplete: false
     property bool orientationChangeInProgress: false
@@ -142,8 +142,22 @@ PageStackWindow {
         }
     }
 
-    EditionSelectionDialog {
-        id:editionSelectionDialog
+    Loader {
+        id:editionSelection
+        width: parent.width
+        height: parent.height
+        onStatusChanged: {
+            if (editionSelection.status == Loader.Ready) {
+                show()
+            }
+        }
+        function show() {
+            if (editionSelection.status == Loader.Ready) {
+                editionSelection.item.openDialog();
+            } else {
+                editionSelection.source = "EditionSelectionDialog.qml"
+            }
+        }
     }
 
     DefaultEditionDialog {
@@ -162,17 +176,16 @@ PageStackWindow {
         id:topicManager
         onStatusChanged: {
             if (topicManager.status == Loader.Ready) {
-                showTopicManager()
+                show();//showTopicManager()
             }
         }
-    }
-
-    function showTopicManager() {
-        if (topicManager.status == Loader.Ready) {
-            topicManager.item.loadModel();
-            pageStack.push(topicManager.item);
-        } else {
-            topicManager.source = "TopicsManagerDialog.qml"
+        function show() {
+            if (topicManager.status == Loader.Ready) {
+                topicManager.item.loadModel();
+                pageStack.push(topicManager.item);
+            } else {
+                topicManager.source = "TopicsManagerDialog.qml"
+            }
         }
     }
 
@@ -281,14 +294,12 @@ PageStackWindow {
             MenuItem {
                 height:70
                 text: "Manage topics"
-                onClicked: {                    
-                    showTopicManager();
-                }
+                onClicked: topicManager.show();
             }
             MenuItem {
                 height:70
                 text: "Select edition"
-                onClicked: editionSelectionDialog.openDialog()
+                onClicked: editionSelection.show()
             }
         }
     }
