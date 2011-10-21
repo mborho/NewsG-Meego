@@ -12,6 +12,8 @@ PageStackWindow {
     showStatusBar: false
     initialPage: mainPage
     property variant settings:  {}
+    property string defaultNed: "us"
+    property string defaultTopic: "h"
     property string currentNed: "us"
     property string currentTopic: "h"
     property string currentTopicColor: "#6B90DA"
@@ -28,8 +30,8 @@ PageStackWindow {
 
     function onStartup() {
         var defaults = {
-            defaultNed:currentNed,
-            defaultTopic: currentTopic,
+            defaultNed: defaultNed,
+            defaultTopic: defaultTopic,
             loadImages: loadImages,
             gMobilizer: gMobilizer,
             fontSizeFactor: fontSizeFactor,
@@ -49,6 +51,8 @@ PageStackWindow {
 
     function settingsLoaded(dbSettings) {
         settings = dbSettings
+        defaultNed = settings.defaultNed
+        defaultTopic = settings.defaultTopic
         currentNed = settings.defaultNed
         currentTopic = settings.defaultTopic
         currentTopicColor = Gnews.getTopicColor(currentTopic)
@@ -110,6 +114,7 @@ PageStackWindow {
         refreshIcon.visible = true
     }
 
+    /* Toolbar */
     ToolBarLayout {
         id:commonTools
         visible: true
@@ -117,10 +122,7 @@ PageStackWindow {
              id: searchIcon
              platformIconId: "toolbar-search";
              visible: true
-             onClicked: {
-                 searchPage.startup();
-                 pageStack.push(searchPage);
-            }
+             onClicked: searchPage.show();
         }
         BusyIndicator {
             id: loadingSpinner
@@ -143,93 +145,23 @@ PageStackWindow {
     }
 
     Loader {
-        id:editionSelection
-        width: parent.width
-        height: parent.height
-        onStatusChanged: {
-            if (editionSelection.status == Loader.Ready) {
-                show()
-            }
-        }
-        function show() {
-            if (editionSelection.status == Loader.Ready) {
-                editionSelection.item.openDialog();
-            } else {
-                editionSelection.source = "EditionSelectionDialog.qml"
-            }
-        }
-    }
-
-    DefaultEditionDialog {
-        id:defaultEditionDialog
-    }
-
-    FontSizeDialog {
-        id: fontSizeDialog
-    }
-
-    DefaultTopicDialog {
-        id:defaultTopicDialog
-    }
-
-    Loader {
-        id:topicManager
-        onStatusChanged: {
-            if (topicManager.status == Loader.Ready) {
-                show();//showTopicManager()
-            }
-        }
-        function show() {
-            if (topicManager.status == Loader.Ready) {
-                topicManager.item.loadModel();
-                pageStack.push(topicManager.item);
-            } else {
-                topicManager.source = "TopicsManagerDialog.qml"
-            }
-        }
-    }
-
-    SearchPage {
         id:searchPage
-    }
-
-    Dialog {
-       id: aboutDialog
-       content:Item {
-            id: name
-            width: parent.width
-            height: 300
-            Text {
-                font.pixelSize:20
-                color: "white"
-                anchors.centerIn: parent
-                text: parent.getAboutMsg()
-                textFormat: Text.RichText
-                wrapMode: Text.WordWrap
-                onLinkActivated: Qt.openUrlExternally(link)
+        onStatusChanged: {
+            if (searchPage.status == Loader.Ready) {
+                show();
             }
-            function getAboutMsg() {
-                 var msg = '<h1>NewsG for Meego</h1>';
-                 msg += '<p>&#169; 2011, Martin Borho <a href="mailto:martin@borho.net">martin@borho.net</a><br/>';
-                 msg += 'License: GNU General Public License (GPL) Vers.3<br/>';
-                 msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a><br/>';
-                 msg += 'Icon from <a href="http://thenounproject.com">The Noun Project</a><br/>'
-                 msg += '<div><b>Changelog:</b><br/>'
-                 msg += '<div>* 0.9.0 - modifications for PR1.1, bugfixes</div>';
-                 msg += '<div>* 0.7.2 - search page modified, scrolling</div>';
-                 msg += '<div>* 0.6.1 - ui improvements, editions added</div>';
-                 msg += '<div>* 0.4.0 - more editions added, ui tweaks</div>';
-                 msg += '<div>* 0.2.9 - fullscreen mode, more editions, new <br/>icon, option for font-size </div>';
-                 msg += '</div>';
-                 msg += '</p><br/>';
-                 msg += '<table><tr><td valign="middle">powered by </td>';
-                 msg += '<td valign="middle"> <img src="gfx/glogo.png" height="41" width="114" /></td>';
-                 msg += '</tr></table>';
-                 return msg
+        }
+        function show() {
+            if (searchPage.status == Loader.Ready) {
+                searchPage.item.startup();
+                pageStack.push(searchPage.item);
+            } else {
+                searchPage.source = "SearchPage.qml"
             }
         }
     }
 
+    /* Menu with loaders following */
     Menu {
         id: myMenu
         MenuLayout {
@@ -237,25 +169,29 @@ PageStackWindow {
                 id:aboutButton
                 text: 'About'
                 height:70
-                onClicked: aboutDialog.open()
+                onClicked: {
+                    aboutLoader.source = "AboutDialog.qml";
+                    aboutLoader.item.open();
+                }
+
             }
             MenuItem {
                 id:fontSizeButton
                 height:70
                 text: '<span style="color:grey;font-size:small">Font size </span>  '+ ((appWindow.fontSizeFactor >= 1) ? '+' : '')+((appWindow.fontSizeFactor === 0) ? '+- ' : '') + appWindow.fontSizeFactor
-                onClicked: fontSizeDialog.openDialog()
+                onClicked: fontSizeDialog.show();
             }
             MenuItem {
                 id:defaultNedButton
                 height:70
                 text: '<span style="color:grey;font-size:small">Default edition </span>  '+Gnews.getEditionLabel(appWindow.settings.defaultNed)
-                onClicked: defaultEditionDialog.openDialog()
+                onClicked: defaultEditionDialog.show();
             }
             MenuItem {
                 id:defaultTopicButton
                 height:70
                 text: '<span style="color:grey;font-size:small">Default topic </span>  '+Gnews.getConfTopicLabel(appWindow.settings.defaultTopic);
-                onClicked: defaultTopicDialog.openDialog()
+                onClicked: defaultTopicDialog.show();
             }
             MenuItem {
                 text: 'Open links with <br/>Google Mobilizer'
@@ -300,6 +236,100 @@ PageStackWindow {
                 height:70
                 text: "Select edition"
                 onClicked: editionSelection.show()
+            }
+        }
+    }
+
+    Loader {
+        id: aboutLoader
+        anchors.fill: parent
+    }
+
+    Loader {
+        id:editionSelection
+        width: parent.width
+        height: parent.height
+        onStatusChanged: {
+            if (editionSelection.status == Loader.Ready) {
+                show()
+            }
+        }
+        function show() {
+            if (editionSelection.status == Loader.Ready) {
+                editionSelection.item.openDialog();
+            } else {
+                editionSelection.source = "EditionSelectionDialog.qml"
+            }
+        }
+    }
+
+    Loader {
+        id:fontSizeDialog
+        width: parent.width
+        height: parent.height
+        onStatusChanged: {
+            if (fontSizeDialog.status == Loader.Ready) {
+                show()
+            }
+        }
+        function show() {
+            if (fontSizeDialog.status == Loader.Ready) {
+                fontSizeDialog.item.openDialog();
+            } else {
+                fontSizeDialog.source = "FontSizeDialog.qml"
+            }
+        }
+    }
+
+    Loader {
+        id:defaultEditionDialog
+        width: parent.width
+        height: parent.height
+        onStatusChanged: {
+            if (defaultEditionDialog.status == Loader.Ready) {
+                show()
+            }
+        }
+        function show() {
+            if (defaultEditionDialog.status == Loader.Ready) {
+                defaultEditionDialog.item.openDialog();
+            } else {
+                defaultEditionDialog.source = "DefaultEditionDialog.qml"
+            }
+        }
+    }
+
+    Loader {
+        id:defaultTopicDialog
+        width: parent.width
+        height: parent.height
+        onStatusChanged: {
+            if (defaultTopicDialog.status == Loader.Ready) {
+                show()
+            }
+        }
+        function show() {
+            if (defaultTopicDialog.status == Loader.Ready) {
+                defaultTopicDialog.item.openDialog();
+            } else {
+                defaultTopicDialog.source = "DefaultTopicDialog.qml"
+            }
+        }
+    }
+
+    Loader {
+        id:topicManager
+        onStatusChanged: {
+            if (topicManager.status == Loader.Ready) {
+                show();//showTopicManager()
+            }
+        }
+        function show() {
+            if (topicManager.status == Loader.Ready) {
+                topicManager.item.loadModel();
+                pageStack.push(topicManager.item);
+            } else {
+                topicManager.source = "TopicsManagerDialog.qml"
             }
         }
     }

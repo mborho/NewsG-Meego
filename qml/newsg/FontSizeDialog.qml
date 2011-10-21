@@ -10,7 +10,7 @@ SelectionDialog {
     id: defaultTopicDialog
     titleText: "Set font size"
     selectedIndex: 1
-    property int maxFont: 4
+    property int maxFont: 4   
 
     function openDialog() {
         selectedIndex = 8-maxFont-appWindow.fontSizeFactor;

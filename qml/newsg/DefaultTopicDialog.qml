@@ -13,20 +13,21 @@ SelectionDialog {
 
     function openDialog() {
         defaultTopicModel.clear();
+        open();
         var max = Gnews.confTopics.length;
         for(var x=0; max > x;x++) {
-            if(Gnews.confTopics[x].value == appWindow.settings.defaultTopic) {
+            if(Gnews.confTopics[x].value == appWindow.defaultTopic) {
                 selectedIndex = x;
             }
             defaultTopicModel.append({name: Gnews.confTopics[x].label})
         }
-        open();
     }
 
     function accept() {
          var selectedTopic = Gnews.confTopics[selectedIndex];
          appWindow.saveSettingValue('defaultTopic', selectedTopic.value)
          appWindow.changeDefaultTopicLabel(selectedTopic.label)
+        appWindow.defaultTopic = selectedTopic.value;
          close();
     }
 

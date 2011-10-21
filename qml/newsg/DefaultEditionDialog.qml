@@ -13,15 +13,15 @@ SelectionDialog {
 
     function openDialog() {
         defaultEditionModel.clear();
+        open();
         var editions = Gnews.getEditionList();
         var max = editions.length;
         for(var x=0; max > x;x++) {
-            if(editions[x].value == appWindow.settings.defaultNed) {
+            if(editions[x].value == appWindow.defaultNed) {
                 selectedIndex = x;
             }
             defaultEditionModel.append({name: editions[x].label})
         }
-        open();
     }
 
     function accept() {
@@ -29,6 +29,7 @@ SelectionDialog {
         var selectedNed = editions[selectedIndex];
         appWindow.saveSettingValue('defaultNed', selectedNed.value)
         appWindow.changeDefaultNedLabel(selectedNed.label)
+        appWindow.defaultNed = selectedNed.value;
         close();
     }
 
