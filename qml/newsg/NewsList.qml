@@ -16,6 +16,7 @@ Rectangle {
     property variant resultUrls: []
     property string query: ""
     property bool querySort: false
+    property bool pullToLoad: false
     property string mainColor: appWindow.currentTopicColor
     property string mainBgColor: "#FFFFFF"
     property int fontSizeFactor: appWindow.fontSizeFactor
@@ -24,6 +25,7 @@ Rectangle {
         newsList.query = (queryTerm !== undefined) ? queryTerm : "";
         newsList.querySort = (querySort !== undefined) ? querySort : false;
         noNewsResults.visible = false;
+        pullToLoad = false;
         prepareModel();
         setColors();
         var gnews = new Gnews.Gnews();
@@ -74,18 +76,16 @@ Rectangle {
         var currentPage = response["responseData"]["cursor"]["currentPageIndex"]
         var maxPage = (response["responseData"]["cursor"]["pages"] !== undefined) ? response["responseData"]["cursor"]["pages"].length -1 : 1
         var items = response["responseData"]["results"]
-        var max = items.length
+        var max = items.length;
         var resultUrls = newsList.resultUrls
         if(max === 0 && newsList.resultPage === 1) {
             console.log('no results')
             noNewsResults.visible = true;
         }
-
         var itemList = [];
         for(var x=0;max > x;x++) {
             if(resultUrls.indexOf(items[x].unescapedUrl) > -1) {
                 // check double cluster
-                // console.log('duplicate: '+items[x].unescapedUrl)
                 continue;
             }
             var item = {}
@@ -113,6 +113,7 @@ Rectangle {
                           header:'',
                           content:'<p align="center" style=""><img src="gfx/down.png" /></p>',
                           relateds:''})
+            pullToLoad = true;
         }
         max = itemList.length
         var resultPage = newsList.resultPage;
@@ -123,6 +124,7 @@ Rectangle {
         if(delPos !== false) {
             newsItemModel.remove(delPos);// remove reload item
         }
+
         if(newsList.query === "") {
             appWindow.stopSpinner();
         } else {
@@ -159,7 +161,6 @@ Rectangle {
             id: newsItemBox
             width:newsList.width
             height: (header !== "") ? childrenRect.height : 80;
-            color: "#FFF"
             Behavior on height {
                  NumberAnimation {
                      duration: 600
@@ -203,7 +204,7 @@ Rectangle {
                 MouseArea {
                     enabled:  (header === "") ? true : false
                     anchors.fill: parent
-                    onClicked: entryClicked('more')
+                    onClicked: entryClicked('more')                    
                 }
             }
             Item {
@@ -330,8 +331,6 @@ Rectangle {
                    url = 'http://google.com/gwt/x?u='+encodeURIComponent(url)
             }
             console.log('Opening '+url);
-//            webBrowser.urlString = url;
-//            pageStack.push(webBrowser);
             Qt.openUrlExternally ( url )
         }
     }
@@ -343,6 +342,17 @@ Rectangle {
         contentWidth: parent.width
         contentHeight: listContainer.height
         flickableDirection: Flickable.VerticalFlick
+        property double startedAt : 0.0
+        onMovementStarted: {
+            startedAt = (visibleArea.yPosition+visibleArea.heightRatio);
+        }
+        onMovementEnded: {
+            if(pullToLoad && startedAt > 0.99999
+                    && (visibleArea.yPosition+visibleArea.heightRatio) > 0.99999) {
+                startedAt = 0 //reset
+                entryClicked('more');
+            }
+        }
         Column {
             id:listContainer
             width:parent.width
