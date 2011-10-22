@@ -19,6 +19,9 @@ Rectangle {
     property bool pullToLoad: false
     property string mainColor: appWindow.currentTopicColor
     property string mainBgColor: "#FFFFFF"
+    property double startedAt : 0.0
+    property string moreIcon: (startedAt < 0.99999) ? "down" : "down_ready2"
+    property string moreRichText: '<p align="center" style=""><img src="gfx/'+moreIcon+'.png" /></p>'
     property int fontSizeFactor: appWindow.fontSizeFactor
 
     function doRequest(queryTerm, querySort) {
@@ -109,10 +112,7 @@ Rectangle {
         }
         newsList.resultUrls =  resultUrls
         if(currentPage < maxPage) {
-            itemList.push({image:false,
-                          header:'',
-                          content:'<p align="center" style=""><img src="gfx/down.png" /></p>',
-                          relateds:''})
+            itemList.push({image:false,header:'',content: '',relateds:''})
             pullToLoad = true;
         }
         max = itemList.length
@@ -195,7 +195,7 @@ Rectangle {
                 anchors.top: newsTitle.bottom
                 anchors.topMargin: (header !== "") ? 5 : 0
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: content
+                text: (header === "") ? moreRichText : content;
                 textFormat: Text.RichText
                 font.pointSize: 15 + newsList.fontSizeFactor
                 lineHeight:1.1
@@ -342,7 +342,6 @@ Rectangle {
         contentWidth: parent.width
         contentHeight: listContainer.height
         flickableDirection: Flickable.VerticalFlick
-        property double startedAt : 0.0
         onMovementStarted: {
             startedAt = (visibleArea.yPosition+visibleArea.heightRatio);
         }
@@ -381,8 +380,4 @@ Rectangle {
             color: newsList.mainColor
         }
     }
-
-//    WebBrowser {
-//        id:webBrowser
-//    }
 }
