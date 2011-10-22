@@ -20,7 +20,7 @@ Rectangle {
     property string mainColor: appWindow.currentTopicColor
     property string mainBgColor: "#FFFFFF"
     property double startedAt : 0.0
-    property string moreIcon: (startedAt < 0.99999) ? "down" : "down_ready2"
+    property string moreIcon: (startedAt < 0.99999) ? "down" : "down_ready"
     property string moreRichText: '<p align="center" style=""><img src="gfx/'+moreIcon+'.png" /></p>'
     property int fontSizeFactor: appWindow.fontSizeFactor
 
