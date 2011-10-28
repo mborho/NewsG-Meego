@@ -9,7 +9,7 @@ import "js/gnews.js" as Gnews
 SelectionDialog {
     id: defaultEditionDialog
     titleText: "Set default edition"
-    selectedIndex: 1
+    selectedIndex: -1
     Component.onCompleted: onStartup();
 
     function onStartup() {
@@ -18,9 +18,8 @@ SelectionDialog {
         for(var x=0; max > x;x++) {
             if(editions[x].value == appWindow.defaultNed) {
                 selectedIndex = x;
-            }
-            defaultEditionModel.append({name: editions[x].label})
-        }
+            }            
+        }        
     }
 
     function accept() {
@@ -32,7 +31,10 @@ SelectionDialog {
         close();
     }
 
-    model: ListModel {
-        id: defaultEditionModel
+    EditionsModel {
+        id:editionsModel;
     }
+
+    model: editionsModel;
+
 }

@@ -256,7 +256,7 @@ PageStackWindow {
         }
         function show() {
             if (editionSelection.status == Loader.Ready) {
-                editionSelection.item.openDialog();
+                editionSelection.item.open();
             } else {
                 editionSelection.source = "EditionSelectionDialog.qml"
             }

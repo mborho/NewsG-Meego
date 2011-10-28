@@ -9,7 +9,7 @@ import "js/gnews.js" as Gnews
 SelectionDialog {
     id: defaultTopicDialog
     titleText: "Set default topic"
-    selectedIndex: 1
+    selectedIndex: -1
     Component.onCompleted: onStartup()
 
     function onStartup() {

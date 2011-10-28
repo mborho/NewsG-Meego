@@ -9,20 +9,17 @@ import "js/gnews.js" as Gnews
 SelectionDialog {
     id: editionSelectionDialog
     titleText: "Select edition"
-    selectedIndex: 1
+    selectedIndex: -1
+    Component.onCompleted: onStartup();
 
-    function openDialog() {
-        editionSelectionModel.clear();
+    function onStartup() {
         var editions = Gnews.getEditionList();
         var max = editions.length;
         for(var x=0; max > x;x++) {
             if(editions[x].value == appWindow.currentNed) {
                 selectedIndex = x;
             }
-            editionSelectionModel.append({name: editions[x].label})
-        }
-        open();
-
+        }        
     }
 
     function accept() {
@@ -34,7 +31,10 @@ SelectionDialog {
         mainPage.doRefresh();
     }
 
-    model: ListModel {
-        id: editionSelectionModel
+    EditionsModel {
+        id:editionsModel;
     }
+
+    model: editionsModel
+
 }
