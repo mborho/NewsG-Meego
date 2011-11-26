@@ -4,7 +4,7 @@ Version=1.0
 Type=Application
 Terminal=false
 Name=NewsG
-Exec=/usr/bin/invoker --type=d -s /opt/newsg/bin/newsg
+Exec=/usr/bin/invoker --type=d --splash=/opt/newsg/qml/newsg/gfx/newsg-splash.jpg --splash-landscape=/opt/newsg/qml/newsg/gfx/newsg-splash-landscape.jpg -s /opt/newsg/bin/newsg
 Icon=/usr/share/icons/hicolor/80x80/apps/newsg80.png
 X-Window-Icon=
 X-HildonDesk-ShowInToolbar=true
