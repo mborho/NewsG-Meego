@@ -903,6 +903,24 @@ var gnewsEditions = {
             {label: "Most Popular", value: "po"}
         ]
     },
+    "hi_in" : {
+        ned : "hi_in",
+        name : "भारत (India)",
+        more : "अधिक स्रोतों",
+        topics : [
+            {label: "सुर्खियां", value: "h"},
+            {label: "विश्व", value: "w"},
+            {label: "भारत", value: "n"},
+            {label: "व्यवसाय", value: "b"},
+            {label: "विज्ञान/तकनीक", value: "t"},
+            {label: "राजनीति", value: "p"},
+            {label: "मनोरंजन", value: "e"},
+            {label: "खेलकूद", value: "s"},
+            {label: "स्वास्थ्य", value: "m"},
+            {label: "स्पॉटलाइट", value: "ir"},
+            {label: "सर्वाधिक लोकप्रिय", value: "po"}
+        ]
+    },
     "en_pk" : {
         ned : "en_pk",
         name : "Pakistan",

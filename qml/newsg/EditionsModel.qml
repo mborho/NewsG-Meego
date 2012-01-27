@@ -48,6 +48,7 @@ ListModel {
     ListElement {name: "Australia"}
     ListElement {name: "New Zealand"}
     ListElement {name: "India"}
+    ListElement {name: "भारत (India)"}
     ListElement {name: "Pakistan"}
     ListElement {name: "Malaysia"}
     ListElement {name: "Singapore"}
