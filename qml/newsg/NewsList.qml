@@ -255,6 +255,7 @@ Rectangle {
                 width:parent.width
                 height: (newsRelateds.visible === true) ? childrenRect.height : ((relateds) ? relToggleText.height : 0)
                 anchors.top: newsContent.bottom
+                anchors.topMargin: 5
                 visible: (header !== "" && relateds) ? true : false
                 Text {
                     id:relToggleText
