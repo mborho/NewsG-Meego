@@ -17,6 +17,7 @@ Rectangle {
     property string query: ""
     property bool querySort: false
     property bool pullToLoad: false
+    property string token: ""
     property string mainColor: appWindow.currentTopicColor
     property string mainBgColor: "#FFFFFF"
     property double startedAt : 0.0
@@ -29,11 +30,13 @@ Rectangle {
         newsList.querySort = (querySort !== undefined) ? querySort : false;
         noNewsResults.visible = false;
         pullToLoad = false;
+        token = new Date().getTime();
         prepareModel();
         setColors();
         var gnews = new Gnews.Gnews();
         gnews.page = newsList.resultPage
         gnews.ned = appWindow.currentNed;
+        gnews.token = token;
         if(newsList.query !== "") {
             gnews.query = newsList.query;
             if(querySort === true) {
@@ -75,12 +78,17 @@ Rectangle {
         newsItemModel.clear();
     }
 
-    function renderNewsItems(response) {
+    function renderNewsItems(response, reqToken) {
+        if(token !== reqToken) {
+            return false;
+        }
         var currentPage = response["responseData"]["cursor"]["currentPageIndex"]
         var maxPage = (response["responseData"]["cursor"]["pages"] !== undefined) ? response["responseData"]["cursor"]["pages"].length -1 : 1
         var items = response["responseData"]["results"]
         var max = items.length;
         var resultUrls = newsList.resultUrls
+
+
         if(max === 0 && newsList.resultPage === 1) {
             console.log('no results')
             noNewsResults.visible = true;

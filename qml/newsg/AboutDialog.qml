@@ -23,7 +23,7 @@ Dialog {
              msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a><br/>';
              msg += 'Icon from <a href="http://thenounproject.com">The Noun Project</a><br/>'
              msg += '<div><b>Changelog:</b><br/>'
-             msg += '<div>* 2.0 - new settings menu, fullscreen option</div>';
+             msg += '<div>* 2.0.0 - new settings menu, fullscreen option</div>';
              msg += '<div>* 1.4.1 - little tweak for PR 1.2</div>';
              msg += '<div>* 1.3.0 - hindi edition added</div>';
              msg += '<div>* 1.2.0 - splash screen added</div>';

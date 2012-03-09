@@ -5,16 +5,13 @@
 
 var Gnews = function() {
     this.api_base = 'http://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=large',
+    this.token = "";
     this.ned = 'de',
     this.page = 1,
     this.offset = 8,
     this.topic = '',
     this.query = '',
     this.sort = '',
-
-    this.test = function() {
-        return this.name;
-    }
 }
 
 Gnews.prototype.buildUrl = function() {
@@ -31,6 +28,7 @@ Gnews.prototype.buildUrl = function() {
 
 Gnews.prototype.doRequest = function(callbackFunc) {
     var url = this.buildUrl();
+    var reqToken = this.token;
     console.log(url)
     var xmlHttp = new XMLHttpRequest();
     if (xmlHttp) {
@@ -39,7 +37,7 @@ Gnews.prototype.doRequest = function(callbackFunc) {
             if (xmlHttp.readyState == 4) {
                 var responseText = xmlHttp.responseText.replace(/^\ ?\(/, '').replace(/\)$/, '');                
                 var myJSON = JSON.parse(responseText);
-                callbackFunc(myJSON);
+                callbackFunc(myJSON, reqToken);
             }
         };
         xmlHttp.send(null);
