@@ -10,7 +10,7 @@ import "js/gnews.js" as Gnews
 PageStackWindow {
     id: appWindow
     showStatusBar: false
-    initialPage: mainPage
+    initialPage: mainPage    
     property variant settings:  {}
     property string defaultNed: "us"
     property string defaultTopic: "h"
@@ -20,6 +20,7 @@ PageStackWindow {
     property variant topicsOrder: ["h","w","n","b","t","p","e","s","m","ir","po"]
     property variant topicsHidden: []
     property bool loadImages: true
+    property bool showFullscreen: true
     property bool gMobilizer: false
     property int fontSizeFactor: 0
     property bool settingsComplete: false
@@ -33,11 +34,13 @@ PageStackWindow {
             defaultNed: defaultNed,
             defaultTopic: defaultTopic,
             loadImages: loadImages,
+            showFullscreen: showFullscreen,
             gMobilizer: gMobilizer,
             fontSizeFactor: fontSizeFactor,
             topicsOrder: JSON.stringify(topicsOrder),
             topicsHidden: JSON.stringify(topicsHidden),
         }
+        console.log("1 "+defaults.showFullscreen)
         Storage.loadSettings(defaults, settingsLoaded);
     }
 
@@ -56,12 +59,18 @@ PageStackWindow {
         currentNed = settings.defaultNed
         currentTopic = settings.defaultTopic
         currentTopicColor = Gnews.getTopicColor(currentTopic)
+        showFullscreen = settings.showFullscreen
         loadImages = settings.loadImages
         gMobilizer = settings.gMobilizer
         fontSizeFactor = parseInt(settings.fontSizeFactor)
         topicsOrder = JSON.parse(settings.topicsOrder)
         topicsHidden = JSON.parse(settings.topicsHidden)
         settingsComplete = true
+        if(showFullscreen == false) {
+            appWindow.showStatusBar = true;
+            console.log("showFullscreenNot")
+        }
+
         mainPage.start()
     }
 
@@ -166,6 +175,24 @@ PageStackWindow {
         id: myMenu
         MenuLayout {
             MenuItem {
+                text: "Settings / Configure Edition"
+                onClicked: mySettings.open()//settingsMenu.show();
+            }
+            MenuItem {
+                text: "Manage topics"
+                onClicked: topicManager.show();
+            }
+            MenuItem {
+                text: "Select edition"
+                onClicked: editionSelection.show()
+            }
+        }
+    }
+
+    Menu {
+        id: mySettings
+        MenuLayout {
+            MenuItem {
                 id:aboutButton
                 text: 'About'
                 height:70
@@ -173,45 +200,23 @@ PageStackWindow {
                     aboutLoader.source = "AboutDialog.qml";
                     aboutLoader.item.open();
                 }
-
-            }
-            MenuItem {
-                id:fontSizeButton
-                height:70
-                text: '<span style="color:grey;font-size:small">Font size </span>  '+ ((appWindow.fontSizeFactor >= 1) ? '+' : '')+((appWindow.fontSizeFactor === 0) ? '+- ' : '') + appWindow.fontSizeFactor
-                onClicked: fontSizeDialog.show();
             }
             MenuItem {
                 id:defaultNedButton
-                height:70
                 text: '<span style="color:grey;font-size:small">Default edition </span>  '+Gnews.getEditionLabel(appWindow.settings.defaultNed)
                 onClicked: defaultEditionDialog.show();
             }
             MenuItem {
                 id:defaultTopicButton
-                height:70
                 text: '<span style="color:grey;font-size:small">Default topic </span>  '+Gnews.getConfTopicLabel(appWindow.settings.defaultTopic);
                 onClicked: defaultTopicDialog.show();
             }
             MenuItem {
-                text: 'Open links with <br/>Google Mobilizer'
-                height:70
-                Switch {
-                    id: gMobilizerSwitch
-                    checked: appWindow.gMobilizer
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 30
-                    onCheckedChanged: (settingsComplete === true) ? gMobilizerChanged() : false
-
-                    function gMobilizerChanged() {
-                        appWindow.saveSettingValue('gMobilizer',checked)
-                        appWindow.gMobilizer = checked
-                    }
-                }
+                id:fontSizeButton
+                text: '<span style="color:grey;font-size:small">Font size </span>  '+ ((appWindow.fontSizeFactor >= 1) ? '+' : '')+((appWindow.fontSizeFactor === 0) ? '+- ' : '') + appWindow.fontSizeFactor
+                onClicked: fontSizeDialog.show();
             }
             MenuItem {
-                height:70
                 text: 'Load images'
                 Switch {
                     id: imagesSwitch
@@ -224,18 +229,57 @@ PageStackWindow {
                     function loadImagesChanged() {
                         appWindow.saveSettingValue('loadImages', checked)
                         appWindow.loadImages = checked
+                        mySettings.close();
+                        mainPage.doRefresh()
                     }
                  }
             }
             MenuItem {
-                height:70
-                text: "Manage topics"
-                onClicked: topicManager.show();
+                text: 'Open links with <br/>Google Mobilizer'
+                Switch {
+                    id: gMobilizerSwitch
+                    checked: appWindow.gMobilizer
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 30
+                    onCheckedChanged: (settingsComplete === true) ? gMobilizerChanged() : false
+
+                    function gMobilizerChanged() {
+                        appWindow.saveSettingValue('gMobilizer',checked)
+                        appWindow.gMobilizer = checked
+                        mySettings.close();
+                    }
+                }
             }
             MenuItem {
-                height:70
-                text: "Select edition"
-                onClicked: editionSelection.show()
+                text: 'Fullscreen'
+                Switch {
+                    id: fullscreenSwitch
+                    checked: appWindow.showFullscreen
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 30
+                    onCheckedChanged: (settingsComplete === true) ? loadFullscreenChanged() : false
+                    function loadFullscreenChanged() {
+                        appWindow.saveSettingValue('showFullscreen', checked)
+                        appWindow.showFullscreen = checked
+                        mySettings.close();
+                        fullScreenTimer.start()
+                    }
+                 }
+
+                Timer {
+                    id: fullScreenTimer
+                    triggeredOnStart: false
+                    interval: 500; repeat: false
+                    onTriggered: {
+                        if(appWindow.showFullscreen) {
+                            appWindow.showStatusBar = false;
+                         } else {
+                            appWindow.showStatusBar = true;
+                        }
+                    }
+                }
             }
         }
     }

@@ -18,7 +18,6 @@ function executeSql(sql, params) {
 function initStorage() {
     console.log('initialise storage');
     db = getConnection()
-//    executeSql("Drop TABLE settings");
     executeSql('CREATE TABLE IF NOT EXISTS settings(key TEXT UNIQUE, value TEXT)');
 }
 
