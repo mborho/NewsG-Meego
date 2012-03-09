@@ -40,7 +40,6 @@ PageStackWindow {
             topicsOrder: JSON.stringify(topicsOrder),
             topicsHidden: JSON.stringify(topicsHidden),
         }
-        console.log("1 "+defaults.showFullscreen)
         Storage.loadSettings(defaults, settingsLoaded);
     }
 
@@ -68,7 +67,6 @@ PageStackWindow {
         settingsComplete = true
         if(showFullscreen == false) {
             appWindow.showStatusBar = true;
-            console.log("showFullscreenNot")
         }
 
         mainPage.start()
@@ -176,7 +174,7 @@ PageStackWindow {
         MenuLayout {
             MenuItem {
                 text: "Settings / Configure Edition"
-                onClicked: mySettings.open()//settingsMenu.show();
+                onClicked: mySettings.open();
             }
             MenuItem {
                 text: "Manage topics"
@@ -184,7 +182,7 @@ PageStackWindow {
             }
             MenuItem {
                 text: "Select edition"
-                onClicked: editionSelection.show()
+                onClicked: editionSelection.show();
             }
         }
     }
@@ -365,7 +363,7 @@ PageStackWindow {
         id:topicManager
         onStatusChanged: {
             if (topicManager.status == Loader.Ready) {
-                show();//showTopicManager()
+                show();
             }
         }
         function show() {
