@@ -87,8 +87,6 @@ Rectangle {
         var items = response["responseData"]["results"]
         var max = items.length;
         var resultUrls = newsList.resultUrls
-
-
         if(max === 0 && newsList.resultPage === 1) {
             console.log('no results')
             noNewsResults.visible = true;
