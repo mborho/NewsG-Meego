@@ -201,21 +201,25 @@ PageStackWindow {
             }
             MenuItem {
                 id:defaultNedButton
+                height:70
                 text: '<span style="color:grey;font-size:small">Default edition </span>  '+Gnews.getEditionLabel(appWindow.settings.defaultNed)
                 onClicked: defaultEditionDialog.show();
             }
             MenuItem {
                 id:defaultTopicButton
+                height:70
                 text: '<span style="color:grey;font-size:small">Default topic </span>  '+Gnews.getConfTopicLabel(appWindow.settings.defaultTopic);
                 onClicked: defaultTopicDialog.show();
             }
             MenuItem {
                 id:fontSizeButton
+                height:70
                 text: '<span style="color:grey;font-size:small">Font size </span>  '+ ((appWindow.fontSizeFactor >= 1) ? '+' : '')+((appWindow.fontSizeFactor === 0) ? '+- ' : '') + appWindow.fontSizeFactor
                 onClicked: fontSizeDialog.show();
             }
             MenuItem {
                 text: 'Load images'
+                height:70
                 Switch {
                     id: imagesSwitch
                     checked: appWindow.loadImages
@@ -234,6 +238,7 @@ PageStackWindow {
             }
             MenuItem {
                 text: 'Open links with <br/>Google Mobilizer'
+                height:70
                 Switch {
                     id: gMobilizerSwitch
                     checked: appWindow.gMobilizer
@@ -251,6 +256,7 @@ PageStackWindow {
             }
             MenuItem {
                 text: 'Fullscreen'
+                height:70
                 Switch {
                     id: fullscreenSwitch
                     checked: appWindow.showFullscreen

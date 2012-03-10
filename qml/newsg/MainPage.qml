@@ -31,11 +31,6 @@ Page {
         id: newsList
     }
 
-//    NewsListWebView {
-
-//        id: newsList
-//    }
-
     TopicSelectMenu {
         id: topicSelectMenu
     }
