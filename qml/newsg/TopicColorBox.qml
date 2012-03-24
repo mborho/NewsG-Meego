@@ -6,12 +6,13 @@ import QtQuick 1.1
 
 Rectangle {
     id: topicColorBox;
-    width:35;
-    height:35;
+    width:28;
+    height:28;
     anchors.verticalCenter: parent.verticalCenter;
     anchors.right: parent.right;
     anchors.rightMargin: 20;
-    radius:7;
-    opacity: 0.9
+    radius:14;
+    opacity: 0.9;
+    smooth: true;
     color: "#FFF";
 }
