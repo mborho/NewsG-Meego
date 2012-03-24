@@ -177,7 +177,7 @@ PageStackWindow {
                 onClicked: mySettings.open();
             }
             MenuItem {
-                text: "Manage topics"
+                text: "Manage topics list"
                 onClicked: topicManager.show();
             }
             MenuItem {
