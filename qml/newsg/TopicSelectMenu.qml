@@ -43,38 +43,38 @@ Menu {
         id: menuLayout
         MenuItem {
             id:topic_0;visible: true;height:65;text: "Top Stories";property string topic: '';onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["h"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem {
             id:topic_1;visible: true;height:65;text: "World";property string topic: '';onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["w"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_2; visible: true; height:65; text: "U.S."; property string topic: ''; onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["n"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_3; visible: true; height:65; text: "Business"; property string topic: ''; onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["b"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_4; visible: true; height:65; text: "Science/Technology"; property string topic: ''; onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["t"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_5; visible: true; height:65; text: "Politics"; property string topic: ''; onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["p"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_6; visible: true; height:65; text: "Entertainment"; property string topic: ''; onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["e"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_7; visible: true; height:65; text: "Sports"; property string topic: ''; onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["s"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_8; visible: true; height:65; text: "Health"; property string topic: ''; onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["m"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_9; visible: true; height:65; text: "Spotlight"; property string topic: '';onClicked: topicSelected(topic)
-            TopicColorBox {color: Gnews.gnewsColors["ir"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
         MenuItem { id:topic_10; visible: true; height:65; text: "Most Popular"; property string topic: '';onClicked: topicSelected(topic);
-            TopicColorBox {color: Gnews.gnewsColors["po"]}
+            TopicColorBox {color: Gnews.gnewsColors[parent.topic]}
         }
     }
 }
