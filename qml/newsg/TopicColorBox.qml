@@ -11,7 +11,7 @@ Rectangle {
     anchors.verticalCenter: parent.verticalCenter;
     anchors.right: parent.right;
     anchors.rightMargin: 20;
-    radius:5;
+    radius:6;
     opacity: 0.9;
     smooth: true;
     color: "#FFF";
