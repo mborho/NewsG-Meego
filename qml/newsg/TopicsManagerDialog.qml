@@ -3,6 +3,7 @@ Copyright 2011 Martin Borho <martin@borho.net>
 GPLv3 - see License.txt for details
 */
 import QtQuick 1.1
+import QtMobility.feedback 1.1
 import com.nokia.meego 1.0
 import "js/gnews.js" as Gnews
 
@@ -104,8 +105,9 @@ Page {
                 anchors.fill: topicNameText
                 property int positionStarted: 0
                 property int positionEnded: 0
-                property int positionsMoved: Math.floor((positionEnded - positionStarted)/topicNameText.height)
+                property int positionsMoved: Math.floor((positionEnded+(topicNameText.height/2) - positionStarted)/topicNameText.height)
                 property int newPosition: index + positionsMoved
+                property int lastPosition: index
                 property bool held: false
                 drag.axis: Drag.YAxis
                 onPressAndHold: {
@@ -117,9 +119,16 @@ Page {
                     held = true
                     drag.maximumY = (topicManager.height - topicNameText.height - 1 + topicsManagerList.contentY),
                     drag.minimumY = 0
+                    pressedEffect.start();
                 }
                 onPositionChanged: {
                     positionEnded = topicsDelegateBorder.y;
+                    if (Math.abs(positionsMoved) >= 1) {
+                        if(held==true && lastPosition != newPosition) {
+                            movedEffect.start();
+                        }
+                        lastPosition = newPosition
+                    }
                 }
                 onReleased: {
                     if (Math.abs(positionsMoved) < 1 && held == true) {
@@ -128,6 +137,7 @@ Page {
                         topicsManagerList.interactive = true,
                         dragArea.drag.target = null,
                         held = false
+                        pressedEffect.start();
                     } else {
                         if (held == true) {
                             if (newPosition < 1) {
@@ -153,9 +163,10 @@ Page {
                                 dragArea.drag.target = null,
                                 held = false
                             }
+                            pressedEffect.start();
                         }
-                        handleReordering();
-                    }
+                        handleReordering();                        
+                    }                    
                 }
             }
         }
@@ -194,4 +205,21 @@ Page {
         visible: true
         ToolIcon { iconId: "toolbar-back"; onClicked: { pageStack.pop(); } }
     }
+
+    HapticsEffect {
+         id: movedEffect
+         attackIntensity: 0.0
+         attackTime: 250
+         intensity: 0.2
+         duration: 100
+         fadeTime: 250
+         fadeIntensity: 0.0
+     }
+
+    FileEffect {
+        id: pressedEffect
+        loaded: false
+        source: "file:////usr/share/sounds/vibra/tct_warning.ivt"
+    }
+
 }
