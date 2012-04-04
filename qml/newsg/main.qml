@@ -147,7 +147,7 @@ PageStackWindow {
         ToolIcon {
              id: settingsIcon
              platformIconId: "toolbar-view-menu";
-             onClicked: (myMenu.status == DialogStatus.Closed) ? myMenu.open() : myMenu.close()
+             onClicked: (myMenu.status === DialogStatus.Closed) ? myMenu.open() : myMenu.close()
         }
     }
 
@@ -181,7 +181,7 @@ PageStackWindow {
                 onClicked: topicManager.show();
             }
             MenuItem {
-                text: "Select edition"
+                text: 'Select edition &#160;<span style="color:grey;font-size:small">'+Gnews.getEditionLabel(currentNed)+'</span>';
                 onClicked: editionSelection.show();
             }
         }
