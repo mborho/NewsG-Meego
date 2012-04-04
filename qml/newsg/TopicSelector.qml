@@ -35,7 +35,7 @@ Rectangle {
     MouseArea {
         id: topicArea
         anchors.fill: parent
-        onClicked: (topicSelectMenu.status == DialogStatus.Closed) ? topicSelectMenu.openMenu() : topicSelectMenu.closeMenu()
+        onClicked: topicSelectMenuLoader.toggle()
         onPressed:  {
             parent.color = "#585858"
         }

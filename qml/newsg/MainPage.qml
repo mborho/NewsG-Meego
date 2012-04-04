@@ -31,7 +31,25 @@ Page {
         id: newsList
     }
 
-    TopicSelectMenu {
-        id: topicSelectMenu
+    Loader {
+        id: topicSelectMenuLoader
+        anchors.fill: parent
+        onStatusChanged: {
+            if (topicSelectMenuLoader.status == Loader.Ready) {
+                show();
+            }
+        }
+
+        function toggle() {
+            if(status === Loader.Null) {
+                topicSelectMenuLoader.source = "TopicSelectMenu.qml"
+            } else {
+                show()
+            }
+        }
+
+        function show() {
+            topicSelectMenuLoader.item.openMenu()
+        }
     }
 }
