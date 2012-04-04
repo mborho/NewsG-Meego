@@ -8,7 +8,7 @@ import "js/gnews.js" as Gnews
 
 SelectionDialog {
     id: editionSelectionDialog
-    titleText: "Select edition"
+    titleText: 'Select edition &#160;<span style="font-size:20px;">(56)</small>'
     selectedIndex: -1
     Component.onCompleted: onStartup();
 
