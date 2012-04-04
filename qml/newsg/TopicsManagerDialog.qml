@@ -178,13 +178,14 @@ Page {
     Text {
         id: managerHelp
         width:parent.width-80
-        height:60
+        height:70
         anchors.left:  parent.left
         anchors.leftMargin: 40
         textFormat: Text.RichText
         anchors.bottom: parent.bottom
-        text:'Drag and drop a topic to change the order.\nUse the switch to hide a topic.'
-        font.pointSize: 15
+        anchors.bottomMargin: 25
+        text:"<ul><li>Use the switch to hide a topic.</li><li>Press on a topic for 1 second to drag and drop it to a new position.</li></ul>"
+        font.pixelSize: 19
         wrapMode: Text.WordWrap
     }
 
