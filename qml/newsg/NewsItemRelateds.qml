@@ -44,6 +44,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: newsList.entryClicked(url)
+                onPressAndHold: Share.shareLink(url, publisher+": "+title);
                 onPressed:  {parent.color = "#585858";}
                 onReleased:  {parent.color = '#000';}
                 onCanceled:  {parent.color = '#000';}
