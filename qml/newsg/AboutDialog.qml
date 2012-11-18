@@ -23,12 +23,12 @@ Dialog {
              msg += 'Source: <a href="http://github.com/mborho/NewsG-Meego">http://github.com/mborho/NewsG-Meego</a><br/>';
              msg += 'Icon from <a href="http://thenounproject.com">The Noun Project</a><br/>'
              msg += '<div><b>Changelog:</b><br/>'
+             msg += '<div>* 2.3.0 - PressAndHold on headline to share the link</div>';
              msg += '<div>* 2.2.0 - some usability tweaks</div>';
              msg += '<div>* 2.0.0 - new settings menu, fullscreen option</div>';
              msg += '<div>* 1.4.1 - little tweak for PR 1.2</div>';
              msg += '<div>* 1.3.0 - hindi edition added</div>';
              msg += '<div>* 1.2.0 - splash screen added</div>';
-             msg += '<div>* 1.1.0 - double-pull to load next results, bugfixes</div>';
              msg += '</div>';
              msg += '</p><br/>';
              msg += '<table><tr><td valign="middle">powered by </td>';
