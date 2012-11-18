@@ -113,6 +113,7 @@ Rectangle {
             item.link = items[x].unescapedUrl;
             item.content = buildContentString(items[x].content, item.image)
             item.relateds = items[x].relatedStories
+            item.shareTitle = items[x].publisher +": "+title
             itemList.push(item);
             resultUrls.push(items[x].unescapedUrl)
         }
@@ -190,6 +191,10 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: entryClicked(link)
+                    onPressAndHold: {
+                        Share.shareLink(link, shareTitle);
+                    }
+
                     onPressed:  {parent.color = "#585858";}
                     onReleased:  {parent.color = '#000';}
                     onCanceled:  {parent.color = '#000';}
