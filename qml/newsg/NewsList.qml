@@ -191,10 +191,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: entryClicked(link)
-                    onPressAndHold: {
-                        Share.shareLink(link, shareTitle);
-                    }
-
+                    onPressAndHold: Share.shareLink(link, shareTitle);
                     onPressed:  {parent.color = "#585858";}
                     onReleased:  {parent.color = '#000';}
                     onCanceled:  {parent.color = '#000';}
