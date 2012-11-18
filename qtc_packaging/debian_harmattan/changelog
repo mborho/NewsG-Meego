@@ -1,0 +1,10 @@
+newsg (2.3.0) unstable; urgency=low
+  * PressAndHold on headline to share the link
+
+ -- martin <martin@borho.net>  Sun, 18 Nov 2012 15:20:00 +0100
+
+newsg (2.2.0) unstable; urgency=low
+  * some usability tweaks
+  * topics manager now with non-visual feedback at drag and drop
+
+ -- martin <martin@borho.net>  Thu, 05 Apr 2012 13:54:38 +0200
