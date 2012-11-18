@@ -1,5 +1,7 @@
 #include <QtGui/QApplication>
 #include "qmlapplicationviewer.h"
+#include <QDeclarativeContext>
+#include "sharehelper.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -8,6 +10,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     viewer->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer->setMainQmlFile(QLatin1String("qml/newsg/main.qml"));
+
+    QDeclarativeContext *ctxt = viewer->rootContext();
+
+    ShareHelper sh;
+    ctxt->setContextProperty("Share", &sh);
 
     viewer->setAttribute(Qt::WA_OpaquePaintEvent);
     viewer->setAttribute(Qt::WA_NoSystemBackground);
@@ -19,23 +26,4 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     return app->exec();
 }
-
-//#include <QApplication>
-//#include <QDeclarativeView>
-
-//int main(int argc, char **argv)
-//{
-//    QApplication a(argc, argv);
-//    QDeclarativeView view;
-//    view.setSource(QUrl("/opt/newsg/qml/newsg/main.qml"));
-//    view.setAttribute(Qt::WA_OpaquePaintEvent);
-
-//    view.setAttribute(Qt::WA_NoSystemBackground);
-//    view.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
-//    view.viewport()->setAttribute(Qt::WA_NoSystemBackground);
-//    view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-
-//    view.showFullScreen();
-//    return a.exec();
-//}
 
