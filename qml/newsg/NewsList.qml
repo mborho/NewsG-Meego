@@ -5,6 +5,7 @@ GPLv3 - see License.txt for details
 import QtQuick 1.1
 import com.nokia.meego 1.0
 import "js/gnews.js" as Gnews
+import FeedHelper 1.0
 
 Rectangle {
     id: newsList
@@ -24,6 +25,14 @@ Rectangle {
     property string moreIcon: (startedAt < 0.99999) ? "down" : "down_ready"
     property string moreRichText: '<p align="center" style=""><img src="gfx/'+moreIcon+'.png" /></p>'
     property int fontSizeFactor: appWindow.fontSizeFactor
+
+    FeedHelper {
+        id:feedHelper
+    }
+
+    DescListModel {
+        id:test
+    }
 
     function doRequest(queryTerm, querySort) {
         newsList.query = (queryTerm !== undefined) ? queryTerm : "";
@@ -47,7 +56,8 @@ Rectangle {
             appWindow.startSpinner();
             gnews.topic = appWindow.currentTopic;
         }
-        gnews.doRequest(renderNewsItems);
+//        gnews.doRequest(renderNewsItems);
+        gnews.doRssRequest(feedHelper.parseString, renderNewsItemsRss);
     }
 
     function setColors() {
@@ -78,6 +88,46 @@ Rectangle {
         newsItemModel.clear();
     }
 
+    function buildItem(data) {
+        var item = {}
+        var title = data.titleNoFormatting
+        if(data.image === undefined || appWindow.loadImages === false) {
+            item.image  = false;
+        } else {
+            item.image = {}
+            item.image.url = data.image.url
+            item.image.tbWidth = data.image.tbWidth
+            item.image.tbHeight = data.image.tbHeight
+            item.image.width = 140;
+            item.image.height =parseInt((140/item.image.tbWidth)*item.image.tbHeight);
+        }
+        item.header = getHeader(title, data.publisher, data.publishedDate);
+        item.link = data.unescapedUrl;
+        item.content = buildContentString(data.content, item.image);
+        item.shareTitle = data.publisher +": "+title;
+        return item;
+    }
+
+    function renderNewsItemsRss(items, reqToken) {
+        var max = items.length,
+            relatedsMax = 0,
+            itemList = [];
+
+        for(var x=0;max>x;x++) {
+            var item = buildItem(items[x]["main"])
+            if(items[x].relatedStories.length > 0) {
+                item.relateds = items[x].relatedStories;
+            }
+            newsItemModel.append(item);
+        }
+        if(newsList.query === "") {
+            appWindow.stopSpinner();
+        } else {
+            searchPage.stopSpinner();
+        }
+
+    }
+
     function renderNewsItems(response, reqToken) {
         if(token !== reqToken) {
             return false;
@@ -97,23 +147,9 @@ Rectangle {
                 // check double cluster
                 continue;
             }
-            var item = {}
-            var title = items[x].titleNoFormatting
-            if(items[x].image === undefined || appWindow.loadImages === false) {
-                item.image  = false;
-            } else {
-                item.image = {}
-                item.image.url = items[x].image.url
-                item.image.tbWidth = items[x].image.tbWidth
-                item.image.tbHeight = items[x].image.tbHeight
-                item.image.width = 140;
-                item.image.height =parseInt((140/item.image.tbWidth)*item.image.tbHeight);
-            }
-            item.header = getHeader(title, items[x].publisher, items[x].publishedDate);
-            item.link = items[x].unescapedUrl;
-            item.content = buildContentString(items[x].content, item.image)
-            item.relateds = items[x].relatedStories
-            item.shareTitle = items[x].publisher +": "+title
+            var item = buildItem(items[x])
+            item.relateds = items[x].relatedStories;
+            newsItemModel.append(item);
             itemList.push(item);
             resultUrls.push(items[x].unescapedUrl)
         }

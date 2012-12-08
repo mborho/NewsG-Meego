@@ -4,7 +4,8 @@
 // GPLv3 - see license.txt for details
 
 var Gnews = function() {
-    this.api_base = 'http://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=large',
+    this.api_base = 'http://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=large';
+    this.rss_base = 'http://news.google.com/news?';
     this.token = "";
     this.ned = 'de',
     this.page = 1,
@@ -17,6 +18,17 @@ var Gnews = function() {
 Gnews.prototype.buildUrl = function() {
     var start = (this.page-1) * this.offset
     var url = this.api_base+'&ned='+this.ned+'&start='+start;
+    if(this.query != '') {
+        url += '&q='+encodeURIComponent(this.query);
+        url += (this.sort !== "") ? '&scoring='+this.sort : '';
+    } else {
+        url += '&topic='+encodeURIComponent(this.topic);
+    }
+    return url;
+}
+
+Gnews.prototype.buildRssUrl = function() {
+    var url = this.rss_base + 'ned='+this.ned+'&hl='+this.ned+'&output=rss'
     if(this.query != '') {
         url += '&q='+encodeURIComponent(this.query);
         url += (this.sort !== "") ? '&scoring='+this.sort : '';
@@ -42,6 +54,51 @@ Gnews.prototype.doRequest = function(callbackFunc) {
         };
         xmlHttp.send(null);
     }
+}
+
+Gnews.prototype.buildItemsFromRss = function(xml, parserFunc, callBackFunc, reqToken) {
+    var result = [],
+        max = xml.documentElement.firstChild.childNodes.length,
+        newNode, parsedItem;
+
+    for(var x=0; max > x; x++) {
+        var node = xml.documentElement.firstChild.childNodes[x];
+        if(node.nodeName == "item") {
+            var childNodes = node.childNodes,
+                maxChild = childNodes.length,
+                pubDate = '';
+            for(var y=0;maxChild>y;y++) {
+                if(childNodes[y].nodeName == "pubDate") {
+                    pubDate = childNodes[y].firstChild.nodeValue;
+                } else if(childNodes[y].nodeName == "description") {
+                    newNode = childNodes[y].firstChild.nodeValue.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<');
+                    var parsedItem = parserFunc(newNode)
+                    parsedItem.main.publishedDate = pubDate;
+                    result.push(parsedItem);
+                }
+            }
+        }
+    }
+    callBackFunc(result, reqToken);
+}
+
+Gnews.prototype.doRssRequest = function(parserFunc, callbackFunc) {
+    var url = this.buildRssUrl(),
+        reqToken = this.token,
+        that = this;
+    console.log(url)
+    var xmlHttp = new XMLHttpRequest();
+    if (xmlHttp) {
+        xmlHttp.open('GET', url, true);
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4) {
+                that.buildItemsFromRss(xmlHttp.responseXML, parserFunc, callbackFunc, reqToken);
+            }
+        };
+        xmlHttp.send(null);
+    }
+
+
 }
 
 var gnewsColors = {

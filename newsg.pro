@@ -6,6 +6,8 @@ DEPLOYMENTFOLDERS = folder_01
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
+QT += xml
+
 symbian:TARGET.UID3 = 0xE16FB0CE
 
 # Smart Installer package's UID
@@ -32,7 +34,8 @@ CONFIG += shareuiinterface-maemo-meegotouch share-ui-plugin share-ui-common mdat
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    sharehelper.cpp
+    sharehelper.cpp \
+    feedhelper.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -48,4 +51,5 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/changelog
 
 HEADERS += \
-    sharehelper.h
+    sharehelper.h \
+    feedhelper.h
