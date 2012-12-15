@@ -57,9 +57,9 @@ Gnews.prototype.doRequest = function(callbackFunc) {
 }
 
 Gnews.prototype.buildItemsFromRss = function(xml, parserFunc, callBackFunc, reqToken) {
-    var result = [],
-        max = xml.documentElement.firstChild.childNodes.length,
-        newNode, parsedItem;
+    var max = xml.documentElement.firstChild.childNodes.length,
+        newNode, parsedItem,
+        result = {responseData:{cursor: {currentPageIndex:1}, results: []}};
 
     for(var x=0; max > x; x++) {
         var node = xml.documentElement.firstChild.childNodes[x];
@@ -72,9 +72,9 @@ Gnews.prototype.buildItemsFromRss = function(xml, parserFunc, callBackFunc, reqT
                     pubDate = childNodes[y].firstChild.nodeValue;
                 } else if(childNodes[y].nodeName == "description") {
                     newNode = childNodes[y].firstChild.nodeValue.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<');
-                    var parsedItem = parserFunc(newNode)
+                    var parsedItem = parserFunc(newNode);
                     parsedItem.publishedDate = pubDate;
-                    result.push(parsedItem);
+                    result["responseData"]["results"].push(parsedItem);
                 }
             }
         }
