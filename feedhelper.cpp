@@ -26,7 +26,6 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
 
     if(nodeList.count() == 2) {
         // define data structure for result
-        QVariantMap mainArticle;
         QVariantMap mainImage;
         QVariantList relatedArticles;
         QDomElement imgNodeElem = nodeList.at(0).toElement();
@@ -55,15 +54,14 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
             if(x == 0 && tagName == "a") {
                 QDomElement aLink = el.toElement();
                 QDomAttr mainArticleLinkAttr = aLink.attributeNode("href");
-                mainArticle["unescapedUrl"] = mainArticleLinkAttr.value();
-                mainArticle["titleNoFormatting"] = el.text();
-                mainArticle["main"] = "1";
-//                qDebug()  << mainArticle["titleNoFormatting"];
+                resultMap["unescapedUrl"] = mainArticleLinkAttr.value();
+                resultMap["titleNoFormatting"] = el.text();
+//                qDebug()  << resultMap["titleNoFormatting"];
             } else if(tagName == "font") {
                 if(x == 2) {
-                    mainArticle["publisher"] = el.firstChild().firstChild().toElement().text();
+                    resultMap["publisher"] = el.firstChild().firstChild().toElement().text();
                 } else if(x == 4) {
-                    mainArticle["content"] = el.text();
+                    resultMap["content"] = el.text();
                 } else if(el.childNodes().item(1).toElement().tagName() == "font") {
                     QVariantMap relatedArticle;
                     QDomElement relElement = el.firstChild().toElement();
@@ -78,8 +76,7 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
 //                }
                 }
             }
-            mainArticle["image"] = mainImage;
-            resultMap["main"] = mainArticle;
+            resultMap["image"] = mainImage;
             resultMap["relatedStories"] = relatedArticles;
         }
     }

@@ -115,7 +115,7 @@ Rectangle {
             itemList = [];
 
         for(var x=0;max>x;x++) {        
-            var item = buildItem(items[x]["main"])
+            var item = buildItem(items[x]);
             if(items[x].relatedStories.length > 0) {
                 item.relateds = items[x].relatedStories;
             }
