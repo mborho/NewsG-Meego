@@ -27,7 +27,20 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
     if(nodeList.count() == 2) {
         // define data structure for result
         QVariantMap mainArticle;
+        QVariantMap mainImage;
         QVariantList relatedArticles;
+        QDomElement imgNodeElem = nodeList.at(0).toElement();
+        QDomNodeList imgList = imgNodeElem.elementsByTagName("img");
+        if(imgList.count() > 0) {
+            QDomElement imgNode = imgList.at(0).toElement();
+            QDomAttr imgLinkAttr = imgNode.attributeNode("src");
+            QDomAttr imgWidthAttr = imgNode.attributeNode("width");
+            QDomAttr imgHeightAttr = imgNode.attributeNode("height");
+            mainImage["url"] = "http:"+imgLinkAttr.value();
+            mainImage["tbWidth"] = imgWidthAttr.value();
+            mainImage["tbHeight"] = imgHeightAttr.value();
+        }
+
         QDomElement contentNode = nodeList.at(1).toElement();
         QDomNodeList dataNodes = contentNode.firstChild().childNodes().item(2).childNodes();
         for(int x = 0;x < dataNodes.count(); x++)
@@ -41,19 +54,16 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
 
             if(x == 0 && tagName == "a") {
                 QDomElement aLink = el.toElement();
-                QDomAttr mainArticleLinkAttr = aLink.attributeNode("href");// .attributes();// attribute('href');//firstChildElement().tagName();
+                QDomAttr mainArticleLinkAttr = aLink.attributeNode("href");
                 mainArticle["unescapedUrl"] = mainArticleLinkAttr.value();
                 mainArticle["titleNoFormatting"] = el.text();
                 mainArticle["main"] = "1";
 //                qDebug()  << mainArticle["titleNoFormatting"];
-//                qDebug()  << mainArticle["unescapedUrl"];
             } else if(tagName == "font") {
                 if(x == 2) {
                     mainArticle["publisher"] = el.firstChild().firstChild().toElement().text();
-//                    qDebug()  << mainArticle["publisher"];
                 } else if(x == 4) {
                     mainArticle["content"] = el.text();
-//                    qDebug()  << mainArticle["content"];
                 } else if(el.childNodes().item(1).toElement().tagName() == "font") {
                     QVariantMap relatedArticle;
                     QDomElement relElement = el.firstChild().toElement();
@@ -68,6 +78,7 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
 //                }
                 }
             }
+            mainArticle["image"] = mainImage;
             resultMap["main"] = mainArticle;
             resultMap["relatedStories"] = relatedArticles;
         }

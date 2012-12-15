@@ -56,7 +56,7 @@ Rectangle {
             appWindow.startSpinner();
             gnews.topic = appWindow.currentTopic;
         }
-//        gnews.doRequest(renderNewsItems);
+        //gnews.doRequest(renderNewsItems);
         gnews.doRssRequest(feedHelper.parseString, renderNewsItemsRss);
     }
 
@@ -88,18 +88,19 @@ Rectangle {
         newsItemModel.clear();
     }
 
-    function buildItem(data) {
-        var item = {}
-        var title = data.titleNoFormatting
-        if(data.image === undefined || appWindow.loadImages === false) {
+    function buildItem(data, fromRss) {
+        var item = {},
+            imgWidth = 140,
+            title = data.titleNoFormatting;
+        if(data.image === undefined || data.image.url === undefined || appWindow.loadImages === false) {
             item.image  = false;
-        } else {
+        } else {        
             item.image = {}
-            item.image.url = data.image.url
+            item.image.url = data.image.url;
             item.image.tbWidth = data.image.tbWidth
             item.image.tbHeight = data.image.tbHeight
-            item.image.width = 140;
-            item.image.height =parseInt((140/item.image.tbWidth)*item.image.tbHeight);
+            item.image.width = imgWidth;
+            item.image.height =parseInt((imgWidth/item.image.tbWidth)*item.image.tbHeight);
         }
         item.header = getHeader(title, data.publisher, data.publishedDate);
         item.link = data.unescapedUrl;
@@ -113,7 +114,7 @@ Rectangle {
             relatedsMax = 0,
             itemList = [];
 
-        for(var x=0;max>x;x++) {
+        for(var x=0;max>x;x++) {        
             var item = buildItem(items[x]["main"])
             if(items[x].relatedStories.length > 0) {
                 item.relateds = items[x].relatedStories;
@@ -268,6 +269,7 @@ Rectangle {
                     sourceSize.height: (image) ? image.tbHeigth : image.height
                     opacity: 0
                     fillMode:Image.PreserveAspectFit
+                    smooth: true
                     onStatusChanged: {
                         if (status == Image.Ready) {
                             imageIndicator.running = false;
