@@ -74,7 +74,9 @@ Gnews.prototype.buildItemsFromRss = function(xml, parserFunc, callBackFunc, reqT
                     newNode = childNodes[y].firstChild.nodeValue.replace(/\&gt;/g, '>').replace(/\&lt;/g, '<');
                     var parsedItem = parserFunc(newNode);
                     parsedItem.publishedDate = pubDate;
-                    result["responseData"]["results"].push(parsedItem);
+                    if(parsedItem.titleNoFormatting !== undefined) {
+                        result["responseData"]["results"].push(parsedItem);
+                    }
                 }
             }
         }

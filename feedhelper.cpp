@@ -57,6 +57,7 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
                 resultMap["unescapedUrl"] = mainArticleLinkAttr.value();
                 resultMap["titleNoFormatting"] = el.text();
 //                qDebug()  << resultMap["titleNoFormatting"];
+//                qDebug()  << resultMap["unescapedUrl"];
             } else if(tagName == "font") {
                 if(x == 2) {
                     resultMap["publisher"] = el.firstChild().firstChild().toElement().text();
