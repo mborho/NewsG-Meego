@@ -106,9 +106,7 @@ Rectangle {
         item.link = data.unescapedUrl;
         item.content = buildContentString(data.content, item.image);
         item.shareTitle = data.publisher +": "+title;
-        if(data.relatedStories.length > 0) {
-            item.relateds = data.relatedStories;
-        }
+        item.relateds = (data.relatedStories && data.relatedStories.length > 0) ? data.relatedStories : undefined ;
         return item;
     }
 
