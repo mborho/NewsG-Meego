@@ -1,5 +1,5 @@
 /*
-Copyright 2011 Martin Borho <martin@borho.net>
+Copyright 2013 Martin Borho <martin@borho.net>
 GPLv3 - see License.txt for details
 */
 import QtQuick 1.1
@@ -28,6 +28,6 @@ SelectionDialog {
     model: ListModel {
         id: backendModel
         ListElement {name: "API (deprecated)"}
-        ListElement {name: "Feed"}
+        ListElement {name: "Feeds"}
     }
 }

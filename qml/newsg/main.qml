@@ -24,6 +24,7 @@ PageStackWindow {
     property bool showFullscreen: true
     property bool gMobilizer: false
     property int fontSizeFactor: 0
+    property bool deprecationWarning: true
     property bool settingsComplete: false
     property bool orientationChangeInProgress: false
     Component.onCompleted: onStartup()
@@ -33,6 +34,7 @@ PageStackWindow {
     function onStartup() {
         var defaults = {
             dataSource: dataSource,
+            deprecationWarning: true,
             defaultNed: defaultNed,
             defaultTopic: defaultTopic,
             loadImages: loadImages,
@@ -56,6 +58,7 @@ PageStackWindow {
     function settingsLoaded(dbSettings) {
         settings = dbSettings
         dataSource = settings.dataSource
+        deprecationWarning = settings.deprecationWarning
         defaultNed = settings.defaultNed
         defaultTopic = settings.defaultTopic
         currentNed = settings.defaultNed
@@ -72,7 +75,11 @@ PageStackWindow {
             appWindow.showStatusBar = true;
         }
 
-        mainPage.start()
+        if( deprecationWarning ) {
+            deprecationNotice.show();
+        } else {
+            mainPage.start()
+        }
     }
 
     function saveSettingValue(key, value) {
@@ -176,7 +183,7 @@ PageStackWindow {
         id: myMenu
         MenuLayout {
             MenuItem {
-                text: 'Data source &#160;<span style="color:grey;font-size:small">'+((dataSource==="feed") ? "Feed" : "API")+'</span>';
+                text: 'Data source &#160;<span style="color:grey;font-size:small">'+((dataSource==="feed") ? "Feeds" : "API")+'</span>';
                 onClicked: backendSelection.show();
             }
             MenuItem {
@@ -298,6 +305,15 @@ PageStackWindow {
     Loader {
         id: aboutLoader
         anchors.fill: parent
+    }
+
+    Loader {
+        id:deprecationNotice
+        anchors.fill: parent
+        function show() {
+            deprecationNotice.source = "DeprecationDialog.qml"
+            deprecationNotice.item.open();
+        }
     }
 
     Loader {

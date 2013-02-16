@@ -1,3 +1,8 @@
+newsg (3.0.0) unstable; urgency=low
+  * alternative feed-based data source added
+
+ -- martin <martin@borho.net>  Sat, 16 Feb 2013 16:14:33 +0100
+
 newsg (2.3.0) unstable; urgency=low
   * PressAndHold on headline to share the link
 

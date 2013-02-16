@@ -57,7 +57,6 @@ Rectangle {
             gnews.topic = appWindow.currentTopic;
         }
         // use the right data source
-        console.log(appWindow.dataSource);
         if(appWindow.dataSource === "feed") {
             gnews.doRssRequest(feedHelper.parseString, renderNewsItems);
         } else {
