@@ -56,8 +56,13 @@ Rectangle {
             appWindow.startSpinner();
             gnews.topic = appWindow.currentTopic;
         }
-        //gnews.doRequest(renderNewsItems);
-        gnews.doRssRequest(feedHelper.parseString, renderNewsItems);
+        // use the right data source
+        console.log(appWindow.dataSource);
+        if(appWindow.dataSource === "feed") {
+            gnews.doRssRequest(feedHelper.parseString, renderNewsItems);
+        } else {
+            gnews.doRequest(renderNewsItems);
+        }
     }
 
     function setColors() {

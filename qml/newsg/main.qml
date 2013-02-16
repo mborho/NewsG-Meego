@@ -12,6 +12,7 @@ PageStackWindow {
     showStatusBar: false
     initialPage: mainPage    
     property variant settings:  {}
+    property string dataSource: "api"
     property string defaultNed: "us"
     property string defaultTopic: "h"
     property string currentNed: "us"
@@ -31,6 +32,7 @@ PageStackWindow {
 
     function onStartup() {
         var defaults = {
+            dataSource: dataSource,
             defaultNed: defaultNed,
             defaultTopic: defaultTopic,
             loadImages: loadImages,
@@ -53,6 +55,7 @@ PageStackWindow {
 
     function settingsLoaded(dbSettings) {
         settings = dbSettings
+        dataSource = settings.dataSource
         defaultNed = settings.defaultNed
         defaultTopic = settings.defaultTopic
         currentNed = settings.defaultNed
@@ -173,6 +176,10 @@ PageStackWindow {
         id: myMenu
         MenuLayout {
             MenuItem {
+                text: 'Data source &#160;<span style="color:grey;font-size:small">'+((dataSource==="feed") ? "Feed" : "API")+'</span>';
+                onClicked: backendSelection.show();
+            }
+            MenuItem {
                 text: "Settings / Configure Edition"
                 onClicked: mySettings.open();
             }
@@ -291,6 +298,24 @@ PageStackWindow {
     Loader {
         id: aboutLoader
         anchors.fill: parent
+    }
+
+    Loader {
+        id:backendSelection
+        width: parent.width
+        height: parent.height
+        onStatusChanged: {
+            if (backendSelection.status == Loader.Ready) {
+                show()
+            }
+        }
+        function show() {
+            if (backendSelection.status == Loader.Ready) {
+                backendSelection.item.openDialog();
+            } else {
+                backendSelection.source = "BackendSelectionDialog.qml"
+            }
+        }
     }
 
     Loader {
