@@ -33,11 +33,11 @@ Dialog {
         }
         function getMsg() {
              var msg = '<h1>Important notice!</h1>';
-             msg += '<p><b>In 2013 Google will switch of their API for Google News.</b> This means, that this little application won\'t work anymore in its current way.</p>'
+             msg += '<p><b>In 2013 Google will switch off their API for Google News.</b> This means, that this little application won\'t work anymore in its current way.</p>'
                  + '<p><b>But to keep NewsG still working after the Google News API will be finally switched off, '
                  + 'an alternative data backend was added</b>!</p>'
-                 + '<p>You can switch in settings between the current API data source and the newly added feed-based data source.</p>'
-                 + '<p>Unfortunately the feeds for Google News only delivering 10 items per topic for your reading pleasure.'
+                 + '<p>You can now switch in settings between the current API data source and the newly added feed-based data source.</p>'
+                 + '<p>Unfortunately the feeds for Google News are only delivering 10 items per topic for your reading pleasure.'
                  + '<b> But at least, this is something!</b></p><p>&#160;</p>'
              return msg
         }
