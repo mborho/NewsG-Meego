@@ -1,3 +1,8 @@
+newsg (3.1.0) unstable; urgency=low
+  * Fix for image sizes
+
+ -- martin <martin@borho.net>  Tue, 02 Jul 2013 13:58:06 +0200
+
 newsg (3.0.0) unstable; urgency=low
   * alternative feed-based data source added
 

@@ -96,13 +96,13 @@ Rectangle {
         var item = {},
             imgWidth = 140,
             title = data.titleNoFormatting;
-        if(data.image === undefined || data.image.url === undefined || appWindow.loadImages === false) {
+        if(data.image === undefined || data.image.tbUrl === undefined || appWindow.loadImages === false) {
             item.image  = false;
         } else {        
             item.image = {}
-            item.image.url = data.image.url;
-            item.image.tbWidth = data.image.tbWidth
-            item.image.tbHeight = data.image.tbHeight
+            item.image.url = data.image.tbUrl
+            item.image.tbWidth = 80
+            item.image.tbHeight = 55
             item.image.width = imgWidth;
             item.image.height =parseInt((imgWidth/item.image.tbWidth)*item.image.tbHeight);
         }

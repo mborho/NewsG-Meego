@@ -35,7 +35,7 @@ QVariant FeedHelper::parseString (const QString &xmlString) {
             QDomAttr imgLinkAttr = imgNode.attributeNode("src");
             QDomAttr imgWidthAttr = imgNode.attributeNode("width");
             QDomAttr imgHeightAttr = imgNode.attributeNode("height");
-            mainImage["url"] = "http:"+imgLinkAttr.value();
+            mainImage["tbUrl"] = "http:"+imgLinkAttr.value();
             mainImage["tbWidth"] = imgWidthAttr.value();
             mainImage["tbHeight"] = imgHeightAttr.value();
         }
